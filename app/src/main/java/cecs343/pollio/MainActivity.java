@@ -8,9 +8,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity implements PollFragment.OnFragmentInteractionListener, AccountFragment.OnFragmentInteractionListener{
 
     FragmentTransaction ft;
+
+    private ArrayList<PollItem> newPolls = new ArrayList<>();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -20,12 +25,12 @@ public class MainActivity extends AppCompatActivity implements PollFragment.OnFr
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.fragment_placeholder, PollFragment.newInstance("NEW POLLS"));
+                    ft.replace(R.id.fragment_placeholder, PollFragment.newInstance(newPolls));
                     ft.commit();
                     return true;
                 case R.id.navigation_starred:
                     ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.fragment_placeholder, PollFragment.newInstance("STARRED POLLS"));
+                    ft.replace(R.id.fragment_placeholder, PollFragment.newInstance(newPolls));
                     ft.commit();
                     return true;
                 case R.id.navigation_account:
@@ -46,11 +51,28 @@ public class MainActivity extends AppCompatActivity implements PollFragment.OnFr
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        initTestPolls();
+
         // Begin the fragment transaction
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         // Replace the contents of the container with default fragment (Poll display)
-        ft.replace(R.id.fragment_placeholder, PollFragment.newInstance("NEW POLLS"));
+        ft.replace(R.id.fragment_placeholder, PollFragment.newInstance(newPolls));
         ft.commit();
+    }
+
+    private void initTestPolls() {
+        Random r = new Random();
+        for(int i = 0; i < 200; i++) {
+            int numOpts = r.nextInt(5 - 2 + 1) + 2;
+            PollItem poll = new PollItem("Test new poll " + i);
+            ArrayList<PollOption> pollOpts = new ArrayList<PollOption>();
+
+            for(int j = 0; j < numOpts; j++) {
+                pollOpts.add(new PollOption("Poll option " + (j + 1), 1));
+            }
+            poll.setOptions(pollOpts);
+            newPolls.add(poll);
+        }
     }
 
     @Override

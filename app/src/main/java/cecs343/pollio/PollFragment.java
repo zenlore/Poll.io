@@ -4,10 +4,14 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -19,12 +23,9 @@ import android.widget.TextView;
  * create an instance of this fragment.
  */
 public class PollFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String TEST_PARAM = "test";
+    private static final String PARAM_POLLS = "Polls to be displayed";
 
-    // TODO: Rename and change types of parameters
-    private String testParam;
+    private ArrayList<PollItem> pollList = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
 
@@ -41,10 +42,10 @@ public class PollFragment extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     // Current we use no parameters, placeholders still there
-    public static PollFragment newInstance(String param1) {
+    public static PollFragment newInstance(ArrayList<PollItem> param1) {
         PollFragment fragment = new PollFragment();
         Bundle args = new Bundle();
-        args.putString(TEST_PARAM, param1);
+        args.putParcelableArrayList(PARAM_POLLS, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,7 +54,7 @@ public class PollFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            testParam = getArguments().getString(TEST_PARAM);
+            pollList = getArguments().getParcelableArrayList(PARAM_POLLS);
         }
     }
 
@@ -62,8 +63,10 @@ public class PollFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_poll, container, false);
-        TextView txtView = view.findViewById(R.id.info_text);
-        txtView.setText("HELLO I AM GOING TO DISPLAY " + testParam + " IN THE FUTURE");
+        RecyclerView recyclerView = view.findViewById(R.id.poll_recycler_view);
+        PollRecyclerAdapter recyclerAdapter = new PollRecyclerAdapter(getContext(), pollList);
+        recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;
     }
 
