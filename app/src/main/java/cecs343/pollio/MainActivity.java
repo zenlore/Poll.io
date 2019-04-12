@@ -1,15 +1,21 @@
 package cecs343.pollio;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.Random;
 
-    private TextView mTextMessage;
+public class MainActivity extends AppCompatActivity implements PollFragment.OnFragmentInteractionListener, AccountFragment.OnFragmentInteractionListener{
+
+    FragmentTransaction ft;
+
+    private ArrayList<PollItem> newPolls = new ArrayList<>();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -18,13 +24,19 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
+                    ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.fragment_placeholder, PollFragment.newInstance(newPolls));
+                    ft.commit();
                     return true;
                 case R.id.navigation_starred:
-                    mTextMessage.setText(R.string.title_starred);
+                    ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.fragment_placeholder, PollFragment.newInstance(newPolls));
+                    ft.commit();
                     return true;
                 case R.id.navigation_account:
-                    mTextMessage.setText(R.string.title_account);
+                    ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.fragment_placeholder, new AccountFragment());
+                    ft.commit();
                     return true;
             }
             return false;
@@ -36,9 +48,36 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        initTestPolls();
+
+        // Begin the fragment transaction
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        // Replace the contents of the container with default fragment (Poll display)
+        ft.replace(R.id.fragment_placeholder, PollFragment.newInstance(newPolls));
+        ft.commit();
+    }
+
+    private void initTestPolls() {
+        Random r = new Random();
+        for(int i = 0; i < 200; i++) {
+            int numOpts = r.nextInt(5 - 2 + 1) + 2;
+            PollItem poll = new PollItem("Test new poll " + i);
+            ArrayList<PollOption> pollOpts = new ArrayList<PollOption>();
+
+            for(int j = 0; j < numOpts; j++) {
+                pollOpts.add(new PollOption("Poll option " + (j + 1), 1));
+            }
+            poll.setOptions(pollOpts);
+            newPolls.add(poll);
+        }
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
 }

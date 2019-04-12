@@ -3,4 +3,6 @@
     <string name="title_home">Polls</string>
     <string name="title_starred">Starred Polls</string>
     <string name="title_account">My Account</string>
+
+    <item type="id" name="tag_pollitem_index"/>
 </resources>
