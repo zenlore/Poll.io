@@ -1,15 +1,15 @@
 package cecs343.pollio;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 import java.util.ArrayList;
 
@@ -23,6 +23,18 @@ public class PollRecyclerAdapter extends RecyclerView.Adapter<PollRecyclerAdapte
     public PollRecyclerAdapter(Context context, ArrayList<PollItem> polls) {
         this.polls = polls;
         this.context = context;
+    }
+
+
+    private void setFavIcon(View v, boolean mode) {
+        if (mode) {
+            ((ImageView)v).setImageResource(R.drawable.ic_star_black_24dp);
+            ImageViewCompat.setImageTintList((ImageView)v, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorIconFavorite)));
+        }
+        else {
+            ((ImageView)v).setImageResource(R.drawable.ic_star_border_black);
+            ImageViewCompat.setImageTintList((ImageView)v, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorIconDark)));
+        }
     }
 
     @NonNull
@@ -39,9 +51,24 @@ public class PollRecyclerAdapter extends RecyclerView.Adapter<PollRecyclerAdapte
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         //Set title text of poll
         viewHolder.titleText.setText(polls.get(i).getTitle());
+
+
+        //Setup favorite button
+        ImageView faveIcon = viewHolder.favoriteIcon;
+        faveIcon.setTag(R.id.tag_pollitem_index, i);
+        faveIcon.setClickable(true);
+        setFavIcon(faveIcon, polls.get(i).getFavorited());
+        faveIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int index = (int)v.getTag(R.id.tag_pollitem_index);
+                boolean favorited = polls.get(index).toggleFavorited();
+                setFavIcon(v, favorited);
+            }
+        });
+
+
         RadioGroup rg = viewHolder.radioGroup;
-
-
         rg.removeAllViews(); //Since RecyclerView literally reuses views, we need to clear the old poll options
                             // (may have been more than this poll)
         rg.setTag(R.id.tag_pollitem_index, i); //We have to set a tag of which index in the ArrayList this poll is.
@@ -85,11 +112,13 @@ public class PollRecyclerAdapter extends RecyclerView.Adapter<PollRecyclerAdapte
 
         TextView titleText;
         RadioGroup radioGroup;
+        ImageView favoriteIcon;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             titleText = itemView.findViewById(R.id.title_text);
             radioGroup = itemView.findViewById(R.id.poll_radio);
+            favoriteIcon = itemView.findViewById(R.id.icon_favorite);
         }
     }
 }

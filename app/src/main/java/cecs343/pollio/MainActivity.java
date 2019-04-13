@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements PollFragment.OnFr
         Random r = new Random();
         for(int i = 0; i < 200; i++) {
             int numOpts = r.nextInt(5 - 2 + 1) + 2;
-            PollItem poll = new PollItem("Test new poll " + i);
+            PollItem poll = new PollItem("Test new poll " + i, false);
             ArrayList<PollOption> pollOpts = new ArrayList<PollOption>();
 
             for(int j = 0; j < numOpts; j++) {
