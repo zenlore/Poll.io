@@ -10,7 +10,6 @@
             android:layout_height="match_parent"
             android:id="@+id/poll_recycler_view"
             android:background="@color/colorBackgroundLight">
-
     </android.support.v7.widget.RecyclerView>
 
 </FrameLayout>

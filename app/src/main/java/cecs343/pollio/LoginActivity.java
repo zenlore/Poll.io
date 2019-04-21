@@ -64,8 +64,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
 
     public void launchPollFeedActivity(View view) {
+
         Intent i = new Intent(LoginActivity.this, PollFeedActivity.class);
         startActivity(i);
+        finish(); // kills LoginActivity (should only kill if login is SUCCESSFUL)
+        // so this behavior is currently NOT correct
+        // just here to illustrate/remind
     }
 
     @Override

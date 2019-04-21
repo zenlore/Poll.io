@@ -109,7 +109,6 @@ public class PollRecyclerAdapter extends RecyclerView.Adapter<PollRecyclerAdapte
     // In the future we may implement multiple ViewHolders to allow for multiple different poll views
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-
         TextView titleText;
         RadioGroup radioGroup;
         ImageView favoriteIcon;
