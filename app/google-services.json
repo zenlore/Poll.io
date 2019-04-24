@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "616282045809",
+    "firebase_url": "https://pollio-73153.firebaseio.com",
+    "project_id": "pollio-73153",
+    "storage_bucket": "pollio-73153.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:616282045809:android:8efca68bc22d3ec2",
+        "android_client_info": {
+          "package_name": "cecs343.pollio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "616282045809-ss88h6akvareic53rsa5v5035uj7vbpt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cecs343.pollio",
+            "certificate_hash": "45a71af216222ea4fc8cf1d15ee18da27cd78666"
+          }
+        },
+        {
+          "client_id": "616282045809-99j2egnp4da3s5ul6nsfohpp49s2da51.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAZcBgCTCe2qPxNIBMmExRnj1T5NsTIqg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "616282045809-99j2egnp4da3s5ul6nsfohpp49s2da51.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
