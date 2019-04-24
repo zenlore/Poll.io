@@ -12,11 +12,22 @@ public class PollItem implements Parcelable {
     private String title;
     private ArrayList<PollOption> options;
     private int voted;
+    private boolean favorited;
 
-    public PollItem(String title) {
+    public PollItem(String title, boolean favorited) {
         this.title = title;
         this.options = new ArrayList<PollOption>();
+        this.favorited = favorited;
         voted = -1;
+    }
+
+    public boolean toggleFavorited() {
+        favorited = !favorited;
+        return favorited;
+    }
+
+    public boolean getFavorited() {
+        return favorited;
     }
 
     public int getVoted() {

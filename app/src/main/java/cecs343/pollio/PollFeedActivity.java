@@ -1,5 +1,6 @@
 package cecs343.pollio;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,11 +8,19 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements PollFragment.OnFragmentInteractionListener, AccountFragment.OnFragmentInteractionListener{
+public class PollFeedActivity extends AppCompatActivity implements PollFragment.OnFragmentInteractionListener, AccountFragment.OnFragmentInteractionListener{
+
+    public void launchNewPollActivity(View view) {
+        Intent i = new Intent(PollFeedActivity.this, NewPollActivity.class);
+        startActivity(i);
+    }
+
 
     FragmentTransaction ft;
 
@@ -43,10 +52,11 @@ public class MainActivity extends AppCompatActivity implements PollFragment.OnFr
         }
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_poll_feed);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -64,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements PollFragment.OnFr
         Random r = new Random();
         for(int i = 0; i < 200; i++) {
             int numOpts = r.nextInt(5 - 2 + 1) + 2;
-            PollItem poll = new PollItem("Test new poll " + i);
+            PollItem poll = new PollItem("Test new poll " + i, false);
             ArrayList<PollOption> pollOpts = new ArrayList<PollOption>();
 
             for(int j = 0; j < numOpts; j++) {

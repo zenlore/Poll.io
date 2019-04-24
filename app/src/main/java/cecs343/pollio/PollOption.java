@@ -51,7 +51,7 @@ public class PollOption implements Parcelable{
 
     }
 
-    public static final Parcelable.Creator<PollOption> CREATOR = new Parcelable.Creator<PollOption>() {
+    public static final Creator<PollOption> CREATOR = new Creator<PollOption>() {
         @Override
         public PollOption createFromParcel(Parcel in) {
             return new PollOption(in);
