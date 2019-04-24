@@ -16,11 +16,6 @@ import java.util.Random;
 
 public class PollFeedActivity extends AppCompatActivity implements PollFragment.OnFragmentInteractionListener, AccountFragment.OnFragmentInteractionListener{
 
-    public void launchNewPollActivity(View view) {
-        Intent i = new Intent(PollFeedActivity.this, NewPollActivity.class);
-        startActivity(i);
-    }
-
 
     FragmentTransaction ft;
 

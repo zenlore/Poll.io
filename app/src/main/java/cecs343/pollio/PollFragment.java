@@ -1,6 +1,7 @@
 package cecs343.pollio;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -56,6 +57,11 @@ public class PollFragment extends Fragment {
         if (getArguments() != null) {
             pollList = getArguments().getParcelableArrayList(PARAM_POLLS);
         }
+    }
+
+    public void launchNewPollActivity(View view) {
+        Intent i = new Intent(getContext(), NewPollActivity.class);
+        startActivity(i);
     }
 
     @Override
