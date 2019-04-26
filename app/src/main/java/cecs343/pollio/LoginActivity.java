@@ -20,18 +20,30 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+//GOOOGLE STUFFFFFFFFF
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApiNotAvailableException;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -63,6 +75,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
+    //Buttons
+    Button registerButton;
+
+    //Firebase object
+    private FirebaseAuth mAuth;
+    // GoogleSignInClient object
+    GoogleSignInClient mGoogleSignInClient;
+
+    private static final String TAG = "MainActivity";
+    private static final int RC_SIGN_IN = 77; //some random number i guess
+
     public void launchPollFeedActivity(View view) {
 
         Intent i = new Intent(LoginActivity.this, PollFeedActivity.class);
@@ -76,10 +99,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Set up the login form.
+
+        //initialize Firebase
+        mAuth = FirebaseAuth.getInstance();
+
+        // Set up the login form. TEXT
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-
+        mLoginFormView = findViewById(R.id.login_form);
+        mProgressView = findViewById(R.id.login_progress);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -92,6 +120,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        //Set up the buttons
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -99,11 +128,137 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 attemptLogin();
             }
         });
+        //If the user clicks the SIGN IN button
+        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //call the sign in function
+                signIn(); //make function later;
+            }
+        });
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+        registerButton = findViewById(R.id.register_here_button);
+        //If the user clicks the REGISTER button..
+        registerButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //open to the register activity page
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class ));
+            }
+        });
+
+        //Sign in with google
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.server_client_id))
+                .requestEmail()
+                .build();
+        //Then we will get the GoogleSignInClient object from GoogleSignIn class
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        //google sign in intent
+        findViewById(R.id.google_sign_in_button).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                //go to the google sign in function
+                googleSignIn();
+            }
+        }); //close findViewById
     }
 
+    @Override
+    protected void onStart(){
+        super.onStart();
+        //if user is signed in already, go to main activity
+        if(mAuth.getCurrentUser() != null){
+            startActivity(new Intent(this, PollFeedActivity.class));
+            finish();
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode,data);
+        //match the requestCode with the googlesignin code
+        if(requestCode == RC_SIGN_IN){
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            //check if they were able to successfully get in
+            try{
+                //SUCCESSFUL AND AUTHENTICATED!!!
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                //now authenticate
+                firebaseAuthGoogle(account);
+            }catch (ApiException e){
+                Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void firebaseAuthGoogle(GoogleSignInAccount acct){
+        Log.d(TAG, "firebaseAuthGoogle: " + acct.getId());
+        //get the authentication credentials
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        //now sign in with the credentials
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>(){
+                   @Override
+                   public void onComplete(@NonNull Task<AuthResult> task){
+                       if(task.isSuccessful()){
+                           Log.d(TAG, "signIn successful");
+                           FirebaseUser user = mAuth.getCurrentUser();
+                           Toast.makeText(LoginActivity.this, "User signed in", Toast.LENGTH_SHORT).show();
+                           startActivity(new Intent(LoginActivity.this, PollFeedActivity.class));
+                           finish();
+
+                       }
+                       else{
+                           //If sign in not successful
+                           Log.w(TAG, "signIn failed", task.getException());
+                           Toast.makeText(LoginActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
+                       }
+                   }
+                });
+    }
+    /**This function is the sign in with GOOGLE**/
+    private void googleSignIn(){
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        //start the activity ^^^ pass in the intent
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+    /**This function is the sign in with email and password**/
+    private void signIn(){
+        //get the user's input
+        String email = mEmailView.getText().toString();
+        String password = mPasswordView.getText().toString();
+
+        //if the email or password is left BLANK:
+        if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
+            Toast.makeText(LoginActivity.this, "ERROR: Please enter an email/password.", Toast.LENGTH_SHORT).show();
+        }
+        //else do normal
+        else{
+            //Stores the result---------authentication stuff
+            Task<AuthResult> signInResult;
+            signInResult = mAuth.signInWithEmailAndPassword(email, password);
+            signInResult.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    //check if it the password and email combo are connected
+                    if(!task.isSuccessful()){
+                        Toast.makeText(LoginActivity.this, "ERROR: Incorrect email/password", Toast.LENGTH_SHORT).show();
+
+                    }
+                    else{
+                        //YAY successful signin now we can get into the polls page
+                        startActivity(new Intent(LoginActivity.this, PollFeedActivity.class));
+                        finish();
+
+                    }
+                }
+            });
+
+        }
+    }
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
