@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -53,7 +54,8 @@ public class PollFeedActivity extends AppCompatActivity implements PollFragment.
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        newPolls = Requestor.getHotPolls(getApplicationContext(), "e4bKUDvF0lU2Q8ubyIs0GgAfeKi1");
+        String uid = FirebaseAuth.getInstance().getUid();
+        newPolls = Requestor.getHotPolls(getApplicationContext(), uid);
 
         //nitTestPolls();
 
