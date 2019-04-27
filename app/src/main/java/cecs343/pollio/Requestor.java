@@ -7,7 +7,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,9 +21,9 @@ import java.util.Map;
 
 public class Requestor {
 
-    private static Requestor instance;
+    private static Requestor instance; // Does not cause memory leak as long as you always pass getApplicationContext (Not an activity's context)
     private RequestQueue requestQueue;
-    private static Context ctx;
+    private static Context ctx; // Same as above
 
     private Requestor(Context context) {
         ctx = context;
@@ -27,6 +31,7 @@ public class Requestor {
 
     }
 
+    // Passed context MUST be applicationContext, not activity
     public static synchronized Requestor getInstance(Context context) {
         if (instance == null) {
             instance = new Requestor(context);
@@ -34,10 +39,50 @@ public class Requestor {
         return instance;
     }
 
-    public static ArrayList<PollItem> getHotPolls(Context context, final String uid) {
+    public static void postRequest(final Context context, final String path, FirebaseUser user, final HashMap<String, String> args) {
+
+        user.getIdToken(true).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
+            @Override
+            public void onSuccess(GetTokenResult result) {
+                final String idToken = result.getToken();
+
+                String url = "http://polls.lorenzen.dev/" + path;
+
+
+                StringRequest stringRequest = new StringRequest
+                        (Request.Method.POST, url, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.d("JSON", response);
+                            }
+                        }, new Response.ErrorListener() {
+
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // TODO: Handle error
+                                Log.d("JSON", error.getMessage());
+
+                            }
+                        })
+                {
+                    @Override
+                    public Map<String, String> getParams() {
+                        args.put("token", idToken);
+                        return args;
+                    }
+                };
+                getInstance(context).addToRequestQueue(stringRequest);
+
+            }
+        });
+
+
+    }
+
+    public static ArrayList<PollItem> getHotPolls(Context context, String uid) {
         final ArrayList<PollItem> newPolls = new ArrayList<>();
 
-        String url = "http://polls.lorenzen.dev/polls/hot?uid=" + uid;
+        String url = "http://polls.lorenzen.dev/new?uid=" + uid;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
@@ -48,7 +93,7 @@ public class Requestor {
                         try{
                             for (int i = 0, size = response.length(); i < size; i++) {
                                 JSONObject jsonPoll = response.getJSONObject(i);
-                                PollItem poll = new PollItem(jsonPoll.get("title").toString(), (response.getJSONObject(i).get("favorited").equals("true")));
+                                PollItem poll = new PollItem(jsonPoll.get("title").toString(), (jsonPoll.get("favorited").equals("true")), Integer.parseInt(jsonPoll.get("pollID").toString()));
                                 JSONArray options = jsonPoll.getJSONArray("options");
                                 JSONArray votes = jsonPoll.getJSONArray("votes");
                                 for(int j = 0; j < options.length(); j++)

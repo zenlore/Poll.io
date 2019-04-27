@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PollRecyclerAdapter extends RecyclerView.Adapter<PollRecyclerAdapter.ViewHolder> {
 
@@ -96,7 +98,14 @@ public class PollRecyclerAdapter extends RecyclerView.Adapter<PollRecyclerAdapte
                 int index = group.indexOfChild(group.findViewById(checkedId));
                 Toast.makeText(context, index + " was selected", Toast.LENGTH_SHORT).show();
                 int pollIndex = (int)group.getTag(R.id.tag_pollitem_index);
-                polls.get(pollIndex).vote(index);
+                PollItem poll = polls.get(pollIndex);
+
+                HashMap<String, String> args = new HashMap<>();
+                args.put("vote", poll.getOptions().get(index).getText());
+                args.put("pollID", String.valueOf(poll.getPollID()));
+                Requestor.postRequest(context.getApplicationContext(), "vote", FirebaseAuth.getInstance().getCurrentUser(), args);
+
+                poll.vote(index);
             }
         });
     }
