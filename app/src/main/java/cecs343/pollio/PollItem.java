@@ -9,12 +9,14 @@ import java.util.ArrayList;
 
 public class PollItem implements Parcelable {
 
+    private int pollID;
     private String title;
     private ArrayList<PollOption> options;
     private int voted;
     private boolean favorited;
 
-    public PollItem(String title, boolean favorited) {
+    public PollItem(String title, boolean favorited, int id) {
+        pollID = id;
         this.title = title;
         this.options = new ArrayList<PollOption>();
         this.favorited = favorited;
@@ -48,6 +50,10 @@ public class PollItem implements Parcelable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getPollID() {
+        return pollID;
     }
 
     public void checkVoted(String vote) {
