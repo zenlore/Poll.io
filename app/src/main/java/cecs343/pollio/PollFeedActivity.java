@@ -1,6 +1,5 @@
 package cecs343.pollio;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,8 +7,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -56,7 +53,9 @@ public class PollFeedActivity extends AppCompatActivity implements PollFragment.
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        initTestPolls();
+        newPolls = Requestor.getHotPolls(getApplicationContext(), "e4bKUDvF0lU2Q8ubyIs0GgAfeKi1");
+
+        //nitTestPolls();
 
         // Begin the fragment transaction
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

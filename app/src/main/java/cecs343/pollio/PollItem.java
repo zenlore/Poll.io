@@ -21,6 +21,7 @@ public class PollItem implements Parcelable {
         voted = -1;
     }
 
+
     public boolean toggleFavorited() {
         favorited = !favorited;
         return favorited;
@@ -49,8 +50,22 @@ public class PollItem implements Parcelable {
         this.title = title;
     }
 
+    public void checkVoted(String vote) {
+        int count = 0;
+        for(PollOption option : options) {
+            if (option.getText().equals(vote)) {
+                voted = count;
+            }
+            count++;
+        }
+    }
+
     public void setOptions(ArrayList<PollOption> opts){
         options = opts;
+    }
+
+    public void addPollOption(PollOption opt) {
+        options.add(opt);
     }
 
     public ArrayList<PollOption> getOptions() {
