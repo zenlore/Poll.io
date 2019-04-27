@@ -37,7 +37,7 @@ public class Requestor {
     public static ArrayList<PollItem> getHotPolls(Context context, final String uid) {
         final ArrayList<PollItem> newPolls = new ArrayList<>();
 
-        String url = "http://polls.lorenzen.dev/polls/hot";
+        String url = "http://polls.lorenzen.dev/polls/hot?uid=" + uid;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
@@ -75,13 +75,13 @@ public class Requestor {
                     }
                 })
         {
-
-            @Override
-            public Map<String, String> getParams() {
-                HashMap<String, String> params = new HashMap<>();
-                params.put("uid", uid);
-                return params;
-            }
+//
+//            @Override
+//            public Map<String, String> getParams() {
+//                HashMap<String, String> params = new HashMap<>();
+//                params.put("uid", uid);
+//                return params;
+//            }
         };
         getInstance(context).addToRequestQueue(jsonArrayRequest);
 
