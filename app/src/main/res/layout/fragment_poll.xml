@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/simpleSwipeRefreshLayout"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              xmlns:app="http://schemas.android.com/apk/res-auto"
-              app:layout_constraintTop_toTopOf="@+id/container"
-              app:layout_constraintBottom_toTopOf="@+id/navigation"
              tools:context=".PollFragment">
-
-    <android.support.v7.widget.RecyclerView
+    <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/simpleSwipeRefreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/poll_recycler_view"
-            android:background="@color/colorBackgroundLight">
-    </android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/poll_recycler_view"
+                android:background="@color/colorBackgroundLight">
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_addnewpoll"
@@ -23,4 +24,5 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             android:src="@drawable/ic_fab_add"/>
-</android.support.v4.widget.SwipeRefreshLayout>
+
+</FrameLayout>
