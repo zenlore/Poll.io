@@ -31,6 +31,10 @@ public class Requestor {
 
     }
 
+    public interface HTTPCallback{
+        void onSuccess();
+    }
+
     // Passed context MUST be applicationContext, not activity
     public static synchronized Requestor getInstance(Context context) {
         if (instance == null) {
@@ -79,7 +83,7 @@ public class Requestor {
 
     }
 
-    public static ArrayList<PollItem> getHotPolls(Context context, String uid) {
+    public static ArrayList<PollItem> getHotPolls(Context context, String uid, final HTTPCallback callback) {
         final ArrayList<PollItem> newPolls = new ArrayList<>();
 
         String url = "http://polls.lorenzen.dev/new?uid=" + uid;
@@ -103,6 +107,7 @@ public class Requestor {
                                 poll.checkVoted(jsonPoll.get("voted").toString());
                                 newPolls.add(poll);
                             }
+                            callback.onSuccess();
                         }
                         catch (Exception e){
                             Log.d("JSON", "JSON EXCEPTION: " + e.getMessage());
