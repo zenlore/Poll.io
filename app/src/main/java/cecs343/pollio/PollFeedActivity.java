@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -14,7 +16,7 @@ import java.util.Random;
 
 public class PollFeedActivity extends AppCompatActivity implements PollFragment.OnFragmentInteractionListener, AccountFragment.OnFragmentInteractionListener{
 
-
+    SwipeRefreshLayout swipeRefreshLayout;
     FragmentTransaction ft;
 
     private ArrayList<PollItem> newPolls = new ArrayList<>();
@@ -45,7 +47,6 @@ public class PollFeedActivity extends AppCompatActivity implements PollFragment.
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +57,15 @@ public class PollFeedActivity extends AppCompatActivity implements PollFragment.
 
         String uid = FirebaseAuth.getInstance().getUid();
         newPolls = Requestor.getHotPolls(getApplicationContext(), uid);
+
+        swipeRefreshLayout = findViewById(R.id.simpleSwipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.i("REFRESH HERE", "onRefresh: ");
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         //nitTestPolls();
 
