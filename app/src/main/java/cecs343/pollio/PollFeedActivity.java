@@ -5,21 +5,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
-import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.ArrayList;
-import java.util.Random;
 
 public class PollFeedActivity extends AppCompatActivity implements PollFragment.OnFragmentInteractionListener, AccountFragment.OnFragmentInteractionListener{
 
-    SwipeRefreshLayout swipeRefreshLayout;
     FragmentTransaction ft;
 
-    private ArrayList<PollItem> newPolls = new ArrayList<>();
+    PollFragment newPolls;
+    PollFragment favPolls;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -29,12 +24,12 @@ public class PollFeedActivity extends AppCompatActivity implements PollFragment.
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.fragment_placeholder, PollFragment.newInstance(newPolls));
+                    ft.replace(R.id.fragment_placeholder, newPolls);
                     ft.commit();
                     return true;
                 case R.id.navigation_starred:
                     ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.fragment_placeholder, PollFragment.newInstance(newPolls));
+                    ft.replace(R.id.fragment_placeholder, favPolls);
                     ft.commit();
                     return true;
                 case R.id.navigation_account:
@@ -55,40 +50,14 @@ public class PollFeedActivity extends AppCompatActivity implements PollFragment.
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        String uid = FirebaseAuth.getInstance().getUid();
-        newPolls = Requestor.getHotPolls(getApplicationContext(), uid);
-
-        swipeRefreshLayout = findViewById(R.id.simpleSwipeRefreshLayout);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Log.i("REFRESH HERE", "onRefresh: ");
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
-
-        //nitTestPolls();
+        newPolls = PollFragment.newInstance("new");
+        favPolls = PollFragment.newInstance("favorites");
 
         // Begin the fragment transaction
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         // Replace the contents of the container with default fragment (Poll display)
-        ft.replace(R.id.fragment_placeholder, PollFragment.newInstance(newPolls));
+        ft.replace(R.id.fragment_placeholder, newPolls);
         ft.commit();
-    }
-
-    private void initTestPolls() {
-        Random r = new Random();
-        for(int i = 0; i < 200; i++) {
-            int numOpts = r.nextInt(5 - 2 + 1) + 2;
-            PollItem poll = new PollItem("Test new poll " + i, false, i);
-            ArrayList<PollOption> pollOpts = new ArrayList<PollOption>();
-
-            for(int j = 0; j < numOpts; j++) {
-                pollOpts.add(new PollOption("Poll option " + (j + 1), 1));
-            }
-            poll.setOptions(pollOpts);
-            newPolls.add(poll);
-        }
     }
 
     @Override

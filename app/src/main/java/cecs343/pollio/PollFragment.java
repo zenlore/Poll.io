@@ -5,14 +5,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -26,9 +26,11 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class PollFragment extends Fragment {
-    private static final String PARAM_POLLS = "Polls to be displayed";
+    private static final String PARAM_ROUTE = "Route of URL to retrieve from";
 
     private ArrayList<PollItem> pollList = new ArrayList<>();
+    private String route;
+    private PollRecyclerAdapter recyclerAdapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -40,15 +42,15 @@ public class PollFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
+     *
      * @return A new instance of fragment PollFragment.
      */
     // TODO: Rename and change types and number of parameters
     // Current we use no parameters, placeholders still there
-    public static PollFragment newInstance(ArrayList<PollItem> param1) {
+    public static PollFragment newInstance(String route) {
         PollFragment fragment = new PollFragment();
         Bundle args = new Bundle();
-        args.putParcelableArrayList(PARAM_POLLS, param1);
+        args.putString(PARAM_ROUTE, route);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,7 +59,16 @@ public class PollFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            pollList = getArguments().getParcelableArrayList(PARAM_POLLS);
+//            pollList = getArguments().getParcelableArrayList(PARAM_POLLS);
+            if (pollList.size() <= 0) {
+                route = getArguments().getString(PARAM_ROUTE);
+                pollList = Requestor.getHotPolls(getContext().getApplicationContext(), FirebaseAuth.getInstance().getUid(), new Requestor.HTTPCallback() {
+                    @Override
+                    public void onSuccess(){
+                        recyclerAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
         }
     }
 
@@ -76,8 +87,22 @@ public class PollFragment extends Fragment {
             }
         });
 
+        final SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.simpleSwipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pollList = Requestor.getHotPolls(getContext().getApplicationContext(), FirebaseAuth.getInstance().getUid(), new Requestor.HTTPCallback() {
+                    @Override
+                    public void onSuccess(){
+                        recyclerAdapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+            }
+        });
+
         RecyclerView recyclerView = view.findViewById(R.id.poll_recycler_view);
-        PollRecyclerAdapter recyclerAdapter = new PollRecyclerAdapter(getContext(), pollList);
+        recyclerAdapter = new PollRecyclerAdapter(getContext(), pollList);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;

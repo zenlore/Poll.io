@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/simpleSwipeRefreshLayout"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              xmlns:app="http://schemas.android.com/apk/res-auto"
+              app:layout_constraintTop_toTopOf="@+id/container"
+              app:layout_constraintBottom_toTopOf="@+id/navigation"
              tools:context=".PollFragment">
 
     <android.support.v7.widget.RecyclerView
@@ -20,4 +23,4 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             android:src="@drawable/ic_fab_add"/>
-</FrameLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
