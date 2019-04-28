@@ -64,8 +64,9 @@ public class Requestor {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 // TODO: Handle error
-                                Log.d("JSON", error.getMessage());
-
+                                if (error.getMessage() != null) {
+                                    Log.d("JSON", error.getMessage());
+                                }
                             }
                         })
                 {
@@ -122,7 +123,9 @@ public class Requestor {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO: Handle error
-
+                        if (error.getMessage() != null) {
+                            Log.d("JSON", error.getMessage());
+                        }
                     }
                 })
         {
