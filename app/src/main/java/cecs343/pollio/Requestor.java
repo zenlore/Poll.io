@@ -83,10 +83,10 @@ public class Requestor {
 
     }
 
-    public static ArrayList<PollItem> getHotPolls(Context context, String uid, final HTTPCallback callback) {
+    public static ArrayList<PollItem> getPolls(Context context, String uid, String route, final HTTPCallback callback) {
         final ArrayList<PollItem> newPolls = new ArrayList<>();
 
-        String url = "http://polls.lorenzen.dev/new?uid=" + uid;
+        String url = "http://polls.lorenzen.dev/" + route + "?uid=" + uid;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
@@ -97,7 +97,7 @@ public class Requestor {
                         try{
                             for (int i = 0, size = response.length(); i < size; i++) {
                                 JSONObject jsonPoll = response.getJSONObject(i);
-                                PollItem poll = new PollItem(jsonPoll.get("title").toString(), (jsonPoll.get("favorited").equals("true")), Integer.parseInt(jsonPoll.get("pollID").toString()));
+                                PollItem poll = new PollItem(jsonPoll.get("title").toString(), (boolean)(jsonPoll.get("favorited")), Integer.parseInt(jsonPoll.get("pollID").toString()));
                                 JSONArray options = jsonPoll.getJSONArray("options");
                                 JSONArray votes = jsonPoll.getJSONArray("votes");
                                 for(int j = 0; j < options.length(); j++)
@@ -107,6 +107,7 @@ public class Requestor {
                                 poll.checkVoted(jsonPoll.get("voted").toString());
                                 newPolls.add(poll);
                             }
+
                             callback.onSuccess();
                         }
                         catch (Exception e){

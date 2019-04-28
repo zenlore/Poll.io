@@ -62,7 +62,7 @@ public class PollFragment extends Fragment {
 //            pollList = getArguments().getParcelableArrayList(PARAM_POLLS);
             if (pollList.size() <= 0) {
                 route = getArguments().getString(PARAM_ROUTE);
-                pollList = Requestor.getHotPolls(getContext().getApplicationContext(), FirebaseAuth.getInstance().getUid(), new Requestor.HTTPCallback() {
+                pollList = Requestor.getPolls(getContext().getApplicationContext(), FirebaseAuth.getInstance().getUid(), route, new Requestor.HTTPCallback() {
                     @Override
                     public void onSuccess(){
                         recyclerAdapter.notifyDataSetChanged();
@@ -91,7 +91,7 @@ public class PollFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                pollList = Requestor.getHotPolls(getContext().getApplicationContext(), FirebaseAuth.getInstance().getUid(), new Requestor.HTTPCallback() {
+                pollList = Requestor.getPolls(getContext().getApplicationContext(), FirebaseAuth.getInstance().getUid(), route, new Requestor.HTTPCallback() {
                     @Override
                     public void onSuccess(){
                         recyclerAdapter.notifyDataSetChanged();
