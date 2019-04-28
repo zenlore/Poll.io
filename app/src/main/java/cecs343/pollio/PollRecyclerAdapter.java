@@ -66,6 +66,11 @@ public class PollRecyclerAdapter extends RecyclerView.Adapter<PollRecyclerAdapte
                 int index = (int)v.getTag(R.id.tag_pollitem_index);
                 boolean favorited = polls.get(index).toggleFavorited();
                 setFavIcon(v, favorited);
+
+                HashMap<String, String> args = new HashMap<>();
+                args.put("favorited",  String.valueOf(favorited));
+                args.put("pollID", String.valueOf( polls.get(index).getPollID()));
+                Requestor.postRequest(context.getApplicationContext(), "favorite", FirebaseAuth.getInstance().getCurrentUser(), args);
             }
         });
 
