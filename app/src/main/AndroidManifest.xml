@@ -25,14 +25,17 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
                 android:name=".PollFeedActivity"
                 android:label="@string/title_activity_poll_feed">
         </activity>
+
         <activity android:name=".NewPollActivity">
         </activity>
+
         <activity android:name=".RegisterActivity">
         </activity>
-    </application>
 
+    </application>
 </manifest>

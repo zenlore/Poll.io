@@ -75,8 +75,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
-    //Buttons
-    Button registerButton;
+//    //Buttons
+//    Button registerButton;
 
     //Firebase object
     private FirebaseAuth mAuth;
@@ -87,7 +87,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int RC_SIGN_IN = 77; //some random number i guess
 
     public void launchPollFeedActivity(View view) {
-
         Intent i = new Intent(LoginActivity.this, PollFeedActivity.class);
         startActivity(i);
         finish(); // kills LoginActivity (should only kill if login is SUCCESSFUL)
@@ -137,13 +136,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        registerButton = findViewById(R.id.register_here_button);
         //If the user clicks the REGISTER button..
+        Button registerButton = (Button) findViewById(R.id.register_here_button);
         registerButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 //open to the register activity page
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class ));
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
 
@@ -219,12 +218,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                    }
                 });
     }
+
     /**This function is the sign in with GOOGLE**/
     private void googleSignIn(){
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         //start the activity ^^^ pass in the intent
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+
     /**This function is the sign in with email and password**/
     private void signIn(){
         //get the user's input
@@ -256,7 +257,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     }
                 }
             });
-
         }
     }
 
@@ -264,7 +264,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (!mayRequestContacts()) {
             return;
         }
-
         getLoaderManager().initLoader(0, null, this);
     }
 
@@ -302,7 +301,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         }
     }
-
 
     /**
      * Attempts to sign in or register the account specified by the login form.
