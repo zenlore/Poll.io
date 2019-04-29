@@ -30,7 +30,7 @@ public class PollFragment extends Fragment {
 
     private ArrayList<PollItem> pollList = new ArrayList<>();
     private String route;
-    private PollRecyclerAdapter recyclerAdapter;
+    private RecyclerView recyclerView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -59,13 +59,12 @@ public class PollFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-//            pollList = getArguments().getParcelableArrayList(PARAM_POLLS);
             if (pollList.size() <= 0) {
                 route = getArguments().getString(PARAM_ROUTE);
                 pollList = Requestor.getPolls(getContext().getApplicationContext(), FirebaseAuth.getInstance().getUid(), route, new Requestor.HTTPCallback() {
                     @Override
                     public void onSuccess(){
-                        recyclerAdapter.notifyDataSetChanged();
+                        recyclerView.setAdapter(new PollRecyclerAdapter(getContext(), pollList));
                     }
                 });
             }
@@ -94,15 +93,15 @@ public class PollFragment extends Fragment {
                 pollList = Requestor.getPolls(getContext().getApplicationContext(), FirebaseAuth.getInstance().getUid(), route, new Requestor.HTTPCallback() {
                     @Override
                     public void onSuccess(){
-                        recyclerAdapter.notifyDataSetChanged();
+                        recyclerView.setAdapter(new PollRecyclerAdapter(getContext(), pollList));
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 });
             }
         });
 
-        RecyclerView recyclerView = view.findViewById(R.id.poll_recycler_view);
-        recyclerAdapter = new PollRecyclerAdapter(getContext(), pollList);
+        recyclerView = view.findViewById(R.id.poll_recycler_view);
+        PollRecyclerAdapter recyclerAdapter = new PollRecyclerAdapter(getContext(), pollList);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;
