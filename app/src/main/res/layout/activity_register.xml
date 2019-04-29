@@ -5,7 +5,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".RegisterActivity">
+        tools:context=".RegisterActivity"
+        android:id="@+id/containerRegister" >
 
     <!-- Register progress -->
     <ImageView
@@ -14,16 +15,15 @@
             android:layout_height="85dp"
             app:srcCompat="@drawable/rollypollyclear"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="26dp"/>
+            android:layout_marginStart="18dp" android:layout_alignTop="@+id/imageView3"/>
 
     <LinearLayout
             android:id="@+id/email_login_form"
-            android:layout_width="301dp"
-            android:layout_height="272dp"
+            android:layout_width="281dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="138dp"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true" android:layout_alignParentTop="true"
+            android:layout_marginTop="119dp">
 
         <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -37,7 +37,7 @@
                     android:imeActionId="6"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
-                    android:inputType="text|textPersonName"
+
                     android:maxLines="1"
                     android:singleLine="true"
                     android:fontFamily="@font/finger_paint"/>
@@ -55,7 +55,7 @@
                     android:imeActionId="6"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
-                    android:inputType="text"
+
                     android:maxLines="1"
                     android:singleLine="true"
                     android:fontFamily="@font/finger_paint"/>
@@ -70,7 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
-                    android:inputType="textEmailAddress"
+
                     android:maxLines="1"
                     android:singleLine="true"
                     android:fontFamily="@font/finger_paint"/>
@@ -84,11 +84,11 @@
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_password"
+                    android:hint="@string/prompt_reenterpass"
                     android:imeActionId="6"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
+
                     android:maxLines="1"
                     android:singleLine="true"
                     android:fontFamily="@font/finger_paint"/>
@@ -106,25 +106,13 @@
                     android:imeActionId="6"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
+
                     android:maxLines="1"
                     android:singleLine="true"
                     android:fontFamily="@font/finger_paint"/>
         </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
-
-    <TextView
-            android:id="@+id/textView2"
-            android:text="Welcome to Poll.io where your polling dreams come true!"
-            android:layout_width="311dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/finger_paint"
-            android:typeface="normal"
-            android:textSize="18sp"
-            android:textAlignment="center"
-            android:layout_centerHorizontal="true"
-            android:layout_above="@id/imageView"/>
 
     <Button
             android:id="@+id/email_register_button"
@@ -135,26 +123,22 @@
             android:textStyle="bold"
             android:layout_weight="1"
             android:layout_alignParentStart="true"
-            android:layout_below="@id/email_login_form"
-            android:layout_marginStart="133dp"
-            android:layout_marginTop="-138dp"/>
+            android:layout_marginStart="136dp"
+            android:layout_alignParentBottom="true" android:layout_marginBottom="84dp"/>
 
     <ImageView
             android:id="@+id/imageView3"
             android:layout_width="255dp"
             android:layout_height="71dp"
             app:srcCompat="@drawable/trail"
-            android:layout_below="@id/textView2"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="14dp"/>
+            android:layout_alignParentEnd="true" android:layout_alignParentTop="true" android:layout_marginTop="27dp"/>
 
     <ImageView
             android:id="@+id/imageView5"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="114dp"
             app:srcCompat="@drawable/grass"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:cropToPadding="true"
-            android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true" android:cropToPadding="true"
+            android:layout_width="match_parent"/>
 </RelativeLayout>
