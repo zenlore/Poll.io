@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.app.Fragment;
 
 import android.content.CursorLoader;
 import android.content.Loader;
@@ -50,7 +53,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>{
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -75,8 +78,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
-//    //Buttons
-//    Button registerButton;
+    Button mEmailSignInButton;
+    private FrameLayout fragmentContainer;
 
     //Firebase object
     private FirebaseAuth mAuth;
@@ -107,7 +110,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         populateAutoComplete();
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-        mPasswordView = (EditText) findViewById(R.id.password);
+        mPasswordView = findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -120,7 +123,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         //Set up the buttons
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        mEmailSignInButton = findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,12 +135,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View v) {
                 //call the sign in function
-                signIn(); //make function later;
+                signIn();
             }
         });
 
         //If the user clicks the REGISTER button..
-        Button registerButton = (Button) findViewById(R.id.register_here_button);
+        Button registerButton =  findViewById(R.id.register_here_button);
         registerButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,7 +209,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                            Log.d(TAG, "signIn successful");
                            FirebaseUser user = mAuth.getCurrentUser();
                            Toast.makeText(LoginActivity.this, "User signed in", Toast.LENGTH_SHORT).show();
-                           startActivity(new Intent(LoginActivity.this, PollFeedActivity.class));
                            finish();
 
                        }
@@ -229,18 +231,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**This function is the sign in with email and password**/
     private void signIn(){
         //get the user's input
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        String emailText = mEmailView.getText().toString();
+        String passwordText = mPasswordView.getText().toString();
 
         //if the email or password is left BLANK:
-        if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
+        if(TextUtils.isEmpty(emailText) || TextUtils.isEmpty(passwordText)){
             Toast.makeText(LoginActivity.this, "ERROR: Please enter an email/password.", Toast.LENGTH_SHORT).show();
         }
         //else do normal
         else{
-            //Stores the result---------authentication stuff
+            //Stores the result- authentication stuff
+            Toast.makeText(LoginActivity.this, "Logging in....", Toast.LENGTH_LONG).show();
             Task<AuthResult> signInResult;
-            signInResult = mAuth.signInWithEmailAndPassword(email, password);
+            signInResult = mAuth.signInWithEmailAndPassword(emailText, passwordText);
             signInResult.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -250,6 +253,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                     }
                     else{
+                        //FragmentManager fm = getSupportFragmentManager();
+                        //PollFragment fragment = new PollFragment();
+                        //fm.beginTransaction().replace(R.id.fragmentContainer,fragment).commit();
                         //YAY successful signin now we can get into the polls page
                         startActivity(new Intent(LoginActivity.this, PollFeedActivity.class));
                         finish();

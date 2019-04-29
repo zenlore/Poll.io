@@ -7,6 +7,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.view.View.OnClickListener;
+import android.content.Intent;
+import android.view.inputmethod.EditorInfo;
+import android.widget.*;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 /**
@@ -26,6 +32,11 @@ public class AccountFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private Button logoutButton;
+    //Firebase object
+    private FirebaseAuth mAuth;
+
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -58,13 +69,33 @@ public class AccountFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_account, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view =  inflater.inflate(R.layout.fragment_account, container, false);
+        //find logout button
+        logoutButton = view.findViewById(R.id.logout_button);
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signOut();
+
+            }
+        });
+
+        return view;
+    }
+    private void signOut(){
+        mAuth.getInstance().signOut();
+        Intent getToLogin = new Intent(getActivity(),LoginActivity.class);
+
+        getToLogin.putExtra("finish", true);
+        getToLogin.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // To clean up all activities
+        startActivity(getToLogin);
+        getActivity().finish();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -105,4 +136,7 @@ public class AccountFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
+
 }

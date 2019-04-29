@@ -43,7 +43,7 @@ public class PollFragment extends Fragment {
      * this fragment using the provided parameters.
      *
      *
-     * @return A new instance of fragment PollFragment.
+     *      * @return A new instance of fragment PFragment.
      */
     // TODO: Rename and change types and number of parameters
     // Current we use no parameters, placeholders still there
