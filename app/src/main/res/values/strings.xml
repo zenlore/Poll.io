@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Poll.io</string>
     <string name="title_home">Polls</string>
-    <string name="title_starred">Starred Polls</string>
+    <string name="title_starred">Favorites</string>
     <string name="title_account">My Account</string>
     <string name="server_client_id">616282045809-ss88h6akvareic53rsa5v5035uj7vbpt.apps.googleusercontent.com</string>
     <item type="id" name="tag_pollitem_index"/>
