@@ -27,7 +27,7 @@
         </activity>
         <activity
                 android:name=".PollFeedActivity"
-                android:label="@string/title_activity_poll_feed">
+                android:label="@string/app_name">
         </activity>
         <activity android:name=".NewPollActivity">
         </activity>
