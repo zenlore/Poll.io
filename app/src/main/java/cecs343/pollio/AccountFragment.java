@@ -33,6 +33,7 @@ public class AccountFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private Button logoutButton;
+    private Button forgotPassButton;
     //Firebase object
     private FirebaseAuth mAuth;
 
@@ -86,6 +87,16 @@ public class AccountFragment extends Fragment {
             }
         });
 
+        forgotPassButton = view.findViewById(R.id.changePass);
+
+        forgotPassButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), forgotPasswordActivity.class));
+
+            }
+        });
+
         return view;
     }
     private void signOut(){
@@ -97,6 +108,7 @@ public class AccountFragment extends Fragment {
         startActivity(getToLogin);
         getActivity().finish();
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

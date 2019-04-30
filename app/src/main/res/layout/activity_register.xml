@@ -17,8 +17,13 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="18dp" android:layout_alignTop="@+id/imageView3"/>
 
+    <ScrollView
+            android:id="@+id/register_form"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true" android:layout_alignParentEnd="true">
     <LinearLayout
-            android:id="@+id/email_login_form"
+            android:id="@+id/email_register_form"
             android:layout_width="281dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -125,6 +130,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="136dp"
             android:layout_alignParentBottom="true" android:layout_marginBottom="84dp"/>
+    </ScrollView>
 
     <ImageView
             android:id="@+id/imageView3"

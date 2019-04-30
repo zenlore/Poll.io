@@ -78,7 +78,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
-    Button mEmailSignInButton;
+    private Button mEmailSignInButton;
+    private TextView forgotPassText;
     private FrameLayout fragmentContainer;
 
     //Firebase object
@@ -138,6 +139,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 signIn();
             }
         });
+        //if user clicks the forgot password link
+        forgotPassText = findViewById(R.id.forgotPassText);
+        forgotPassText.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, forgotPasswordActivity.class));
+            }
+        });
+
 
         //If the user clicks the REGISTER button..
         Button registerButton =  findViewById(R.id.register_here_button);
