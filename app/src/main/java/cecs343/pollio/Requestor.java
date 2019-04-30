@@ -50,7 +50,7 @@ public class Requestor {
             public void onSuccess(GetTokenResult result) {
                 final String idToken = result.getToken();
 
-                String url = "http://polls.lorenzen.dev/" + path;
+                String url = "https://polls.lorenzen.dev/" + path;
 
 
                 StringRequest stringRequest = new StringRequest
@@ -87,7 +87,7 @@ public class Requestor {
     public static ArrayList<PollItem> getPolls(Context context, String uid, String route, final HTTPCallback callback) {
         final ArrayList<PollItem> newPolls = new ArrayList<>();
 
-        String url = "http://polls.lorenzen.dev/" + route + "?uid=" + uid;
+        String url = "https://polls.lorenzen.dev/" + route + "?uid=" + uid;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
