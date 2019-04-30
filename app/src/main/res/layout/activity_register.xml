@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".RegisterActivity"
-        android:id="@+id/containerRegister" >
+        android:id="@+id/containerRegister">
 
     <!-- Register progress -->
     <ImageView
@@ -15,24 +15,26 @@
             android:layout_height="85dp"
             app:srcCompat="@drawable/rollypollyclear"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="18dp" android:layout_alignTop="@+id/imageView3"/>
+            android:layout_marginStart="18dp"/>
 
-    <ScrollView
-            android:id="@+id/register_form"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true" android:layout_alignParentEnd="true">
+    <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="255dp"
+            android:layout_height="71dp"
+            app:srcCompat="@drawable/trail"
+            android:layout_alignParentEnd="true" android:layout_alignParentTop="true" android:layout_marginTop="27dp"/>
+
     <LinearLayout
             android:id="@+id/email_register_form"
-            android:layout_width="281dp"
-            android:layout_height="wrap_content"
+
             android:orientation="vertical"
+            android:layout_height="wrap_content" android:layout_width="316dp"
             android:layout_centerHorizontal="true" android:layout_alignParentTop="true"
-            android:layout_marginTop="119dp">
+            android:layout_marginTop="111dp">
 
         <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" android:orientation="vertical">
 
             <EditText
                     android:id="@+id/first_name"
@@ -54,7 +56,7 @@
 
             <EditText
                     android:id="@+id/last_name"
-                    android:layout_width="355dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_lastname"
                     android:imeActionId="6"
@@ -63,7 +65,7 @@
 
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:fontFamily="@font/finger_paint"/>
+                    android:fontFamily="@font/finger_paint" android:textAlignment="textStart"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -89,7 +91,7 @@
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_reenterpass"
+                    android:hint="@string/prompt_password"
                     android:imeActionId="6"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
@@ -115,30 +117,19 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:fontFamily="@font/finger_paint"/>
+
         </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
-
     <Button
             android:id="@+id/email_register_button"
             style="?android:textAppearanceSmall"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/action_register"
             android:textStyle="bold"
             android:layout_weight="1"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="136dp"
-            android:layout_alignParentBottom="true" android:layout_marginBottom="84dp"/>
-    </ScrollView>
-
-    <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="255dp"
-            android:layout_height="71dp"
-            app:srcCompat="@drawable/trail"
-            android:layout_alignParentEnd="true" android:layout_alignParentTop="true" android:layout_marginTop="27dp"/>
-
+            android:layout_alignParentBottom="true" android:layout_marginBottom="92dp"
+            android:layout_centerHorizontal="true" android:layout_height="wrap_content"/>
     <ImageView
             android:id="@+id/imageView5"
             android:layout_height="114dp"
