@@ -38,10 +38,12 @@
         </activity>
         <activity android:name=".forgotPasswordActivity">
         </activity>
-
+        <activity android:name=".ChartActivity">
+        </activity>
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyBAZcBgCTCe2qPxNIBMmExRnj1T5NsTIqg"/>
+
 
     </application>
 
