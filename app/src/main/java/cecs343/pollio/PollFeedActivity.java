@@ -1,11 +1,16 @@
 package cecs343.pollio;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 
@@ -47,6 +52,11 @@ public class PollFeedActivity extends AppCompatActivity implements PollFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poll_feed);
 
+        // requesting dangerous permission: (not sure if all these are necessary)
+        requestPermission("android.permission.ACCESS_FINE_LOCATION");
+        requestPermission("android.permission.ACCESS_COARSE_LOCATION");
+        requestPermission("android.permission.WRITES_EXTERNAL_STORAGE");
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -63,6 +73,19 @@ public class PollFeedActivity extends AppCompatActivity implements PollFragment.
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    private void requestPermission(String permissionRequested){
+        if (ContextCompat.checkSelfPermission(this,
+                permissionRequested)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.i("REQUESTING", permissionRequested);
+            ActivityCompat.requestPermissions(this, new String[]{permissionRequested},0);
+
+        } else {
+            // Permission has already been granted
+            Log.i(permissionRequested, "ALREADY GRANTED ");
+        }
     }
 
 }
