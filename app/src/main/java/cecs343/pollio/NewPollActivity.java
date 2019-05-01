@@ -11,7 +11,7 @@ public class NewPollActivity extends AppCompatActivity {
 
     private Button submitBtn;
     private Button addNewOptionBtn;
-    private ListView lv;
+    private ListView listViewOfOptions;
     private PollOptionsAdapter pollOptionsAdapter;
     public ArrayList<EditModel> optionsList;
 
@@ -23,8 +23,8 @@ public class NewPollActivity extends AppCompatActivity {
         optionsList = populateList();
         pollOptionsAdapter = new PollOptionsAdapter(this, optionsList);
 
-        lv = (ListView) findViewById(R.id.listView);
-        lv.setAdapter(pollOptionsAdapter);
+        listViewOfOptions = (ListView) findViewById(R.id.poll_options);
+        listViewOfOptions.setAdapter(pollOptionsAdapter);
 
         submitBtn = (Button) findViewById(R.id.submit);
         submitBtn.setOnClickListener(new View.OnClickListener() {
@@ -43,7 +43,7 @@ public class NewPollActivity extends AppCompatActivity {
                 if(optionsList.size() < 8) {
                     EditModel em = new EditModel();
                     optionsList.add(em);
-                    lv.setAdapter(new PollOptionsAdapter(NewPollActivity.this, optionsList));
+                    listViewOfOptions.setAdapter(new PollOptionsAdapter(NewPollActivity.this, optionsList));
                     pollOptionsAdapter.notifyDataSetChanged();
                 }
             }

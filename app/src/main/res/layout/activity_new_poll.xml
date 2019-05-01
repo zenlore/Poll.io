@@ -24,7 +24,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <ListView
-            android:id="@+id/listView"
+            android:id="@+id/poll_options"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/text_input_layout_title"></ListView>
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="+"
-            app:layout_constraintTop_toBottomOf="@id/listView"/>
+            app:layout_constraintTop_toBottomOf="@id/poll_options"/>
 
     <Button
             android:id="@+id/submit"
