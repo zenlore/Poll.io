@@ -45,6 +45,34 @@ def createPoll():
     
     return "No Error"
 
+@app.route('/register', methods=["POST"])
+def register():
+    id_token = request.args['token']
+    decoded_token = auth.verify_id_token(id_token)
+    userid = decoded_token['uid']
+
+    displayname = request.args['displayname']
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute('INSERT INTO Users (uid, displayname) VALUES '
+                   '(%s, %s)', [userid, displayname])
+    conn.commit()
+    return "No Error"
+
+@app.route('/displayname', methods=["GET"])
+def register():
+    conn = mysql.connect()
+    cursor =conn.cursor()
+    uid = request.args.get('uid')
+
+    cursor.execute(
+        'SELECT displayname '
+        'FROM Users '
+        'WHERE Users.uid = %s ', [uid])
+    data = cursor.fetchall()
+    return data
+
 
 @app.route('/vote', methods=["POST"])
 def vote():
