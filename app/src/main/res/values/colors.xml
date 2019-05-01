@@ -6,4 +6,12 @@
     <color name="colorIconDark">#000000</color>
     <color name="colorIconFavorite">#dcce30</color>
     <color name="colorAccent">#b8ac4e</color>
+
+    <!-- Chart Colors -->
+    <color name="colorPoll1">#E49986</color>
+    <color name="colorPoll2">#FFF86E</color>
+    <color name="colorPoll3">#8DEC80</color>
+    <color name="colorPoll4">#78EECC</color>
+    <color name="pollyGray">#888888</color>
+
 </resources>
