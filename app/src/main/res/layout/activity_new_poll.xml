@@ -16,7 +16,7 @@
             app:layout_constraintTop_toTopOf="@id/container">
 
         <EditText
-                android:id="@+id/title"
+                android:id="@+id/poll_title_question"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Title"
