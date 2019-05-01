@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.HashMap;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -26,8 +27,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText registerEmailText;
     private EditText registerPassText;
     private EditText confirmPassText;
-    private EditText fNameText;
-    private EditText lNameText;
+    private EditText displayNameText;
+
 
 
     Button registerButton;
@@ -43,8 +44,8 @@ public class RegisterActivity extends AppCompatActivity {
         registerEmailText = findViewById(R.id.email);
         registerPassText = findViewById(R.id.password);
         confirmPassText = findViewById(R.id.reenter_password);
-        fNameText = findViewById(R.id.first_name);
-        lNameText = findViewById(R.id.last_name);
+        displayNameText = findViewById(R.id.display_name);
+
 
         //when the user clicks the register button (aka they finished registering):
         registerButton = findViewById(R.id.email_register_button);
@@ -62,8 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
         String email = registerEmailText.getText().toString();
         String password = registerPassText.getText().toString();
         String confirmPass = confirmPassText.getText().toString();
-        String fName = fNameText.getText().toString();
-        String lname = lNameText.getText().toString();
+        final String dName = displayNameText.getText().toString();
 
         //Check the fields----------------
         // If either email or passwords are empty...
@@ -95,11 +95,13 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, "ERROR: Registration failed.", Toast.LENGTH_SHORT).show();
                     }
                     else{
+                        //puts displayName into the database
+                        HashMap<String, String> args = new HashMap<>();
+                        args.put("displayname", dName);
+                        Requestor.postRequest(getApplicationContext(), "register", FirebaseAuth.getInstance().getCurrentUser(), args);
 
-                        //FragmentManager fm = getSupportFragmentManager();
-                        //PollFragment fragment = new PollFragment();
-                        //fm.beginTransaction().replace(R.id.containerRegister,fragment).commit();
                         Intent pollFragment = new Intent(RegisterActivity.this, PollFeedActivity.class);
+
                         //now clear the stack so user cannot click back to go back to register
                         pollFragment.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 

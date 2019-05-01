@@ -111,6 +111,10 @@ public class PollRecyclerAdapter extends RecyclerView.Adapter<PollRecyclerAdapte
                 Requestor.postRequest(context.getApplicationContext(), "vote", FirebaseAuth.getInstance().getCurrentUser(), args);
 
                 poll.vote(index);
+                //refresh the poll number count
+
+                //show the back of the card aka the current poll results
+
             }
         });
     }

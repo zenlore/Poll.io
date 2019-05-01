@@ -37,17 +37,17 @@
                 android:layout_height="wrap_content" android:orientation="vertical">
 
             <EditText
-                    android:id="@+id/first_name"
+                    android:id="@+id/display_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_firstname"
+                    android:hint="@string/prompt_displayName"
                     android:imeActionId="6"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
-
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:fontFamily="@font/finger_paint"/>
+                    android:fontFamily="@font/finger_paint"
+                    android:maxLength="15"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout

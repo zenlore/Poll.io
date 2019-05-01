@@ -11,7 +11,7 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <string name="prompt_firstname">First Name</string>
+    <string name="prompt_displayName">First Name</string>
     <string name="prompt_lastname">Last Name</string>
     <string name="prompt_reenterpass">Re-enter your password</string>
     <string name="action_sign_in">Sign in</string>
