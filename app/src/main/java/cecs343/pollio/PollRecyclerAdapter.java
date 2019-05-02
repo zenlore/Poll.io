@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,13 +75,18 @@ public class PollRecyclerAdapter extends RecyclerView.Adapter<PollRecyclerAdapte
             }
         });
 
-
         RadioGroup rg = viewHolder.radioGroup;
+
         rg.removeAllViews(); //Since RecyclerView literally reuses views, we need to clear the old poll options
-                            // (may have been more than this poll)
+        // (may have been more than this poll)
         rg.setTag(R.id.tag_pollitem_index, i); //We have to set a tag of which index in the ArrayList this poll is.
-                    // This lets us know what poll we are referencing when we click on it
-        PollItem curPoll = polls.get(i);
+        // This lets us know what poll we are referencing when we click on it
+        setupOptions(rg, polls.get(i));
+
+    }
+
+    private void setupOptions(RadioGroup rg, PollItem curPoll) {
+        Log.d("TEST", curPoll.getArgs().toString());
         for(PollOption pi : curPoll.getOptions()) {
             //Generate each poll option individually
             RadioButton rb = new RadioButton(context);
