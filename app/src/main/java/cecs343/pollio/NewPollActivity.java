@@ -7,7 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class NewPollActivity extends AppCompatActivity{
 
@@ -47,6 +50,9 @@ public class NewPollActivity extends AppCompatActivity{
                 // adding GPS coordinates to pollItem:
                 pollItem.setLatitude(PollFeedActivity.gps.getLatitude());
                 pollItem.setLongitude(PollFeedActivity.gps.getLongitude());
+
+                HashMap<String, String> args = pollItem.getArgs();
+                Requestor.postRequest(getApplicationContext(), "create", FirebaseAuth.getInstance().getCurrentUser(), args);
 
                 // logging pollItem to see if contents are correct:
                 Log.i("TITLE", pollItem.getTitle());
