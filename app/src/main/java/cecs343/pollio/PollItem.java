@@ -23,6 +23,14 @@ public class PollItem implements Parcelable {
         voted = -1;
     }
 
+    public int getTotalVotes() {
+        int total = 0;
+        for(PollOption po : options) {
+            total += po.getVotes();;
+        }
+        return total;
+    }
+
 
     public boolean toggleFavorited() {
         favorited = !favorited;

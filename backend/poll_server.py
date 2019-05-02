@@ -144,6 +144,34 @@ favoriteRequest = ('SELECT mop.pollID, title, GROUP_CONCAT(optionText) AS option
             'INNER JOIN Favorite F2 on mop.pollID = F2.pollID AND F2.uid = %s'
             'GROUP BY mop.pollID;')
 
+myRequest = ('SELECT mop.pollID, title, GROUP_CONCAT(optionText) AS options, GROUP_CONCAT(voteCount) AS votes, mop.uid AS creator, '
+                   '(SELECT v.optionText FROM VoteItem v WHERE v.pollID = mop.pollID AND v.uid = %s) as voted, '
+                   '(SELECT \'true\' FROM Favorite f WHERE mop.pollID = f.pollID AND f.uid = %s) as favorite '
+                   'FROM MultiOptionPoll mop '
+                   'INNER JOIN '
+                   '(SELECT po2.pollID, po2.optionText, COUNT(vote.uid) voteCount '
+                   'FROM PollOption po2 '
+                   'LEFT OUTER JOIN VoteItem vote '
+                   'ON po2.optionText = vote.optionText '
+                   'AND po2.pollID = vote.pollID '
+                   'GROUP BY po2.pollID, po2.optionText) AS concat ON mop.pollID = concat.pollID '
+                   'WHERE mop.uid = %s'
+                   'GROUP BY mop.pollID;')
+
+votedRequest = ('SELECT mop.pollID, title, GROUP_CONCAT(concat.optionText) AS options, GROUP_CONCAT(voteCount) AS votes, mop.uid AS creator, '
+                   '(SELECT v.optionText FROM VoteItem v WHERE v.pollID = mop.pollID AND v.uid = %s) as voted, '
+                   '(SELECT \'true\' FROM Favorite f WHERE mop.pollID = f.pollID AND f.uid = %s) as favorite '
+                   'FROM MultiOptionPoll mop '
+                   'INNER JOIN '
+                   '(SELECT po2.pollID, po2.optionText, COUNT(vote.uid) voteCount '
+                   'FROM PollOption po2 '
+                   'LEFT OUTER JOIN VoteItem vote '
+                   'ON po2.optionText = vote.optionText '
+                   'AND po2.pollID = vote.pollID '
+                   'GROUP BY po2.pollID, po2.optionText) AS concat ON mop.pollID = concat.pollID '
+                   'INNER JOIN VoteItem V2 on mop.pollID = V2.pollID AND V2.uid = %s'
+                   'GROUP BY mop.pollID;')
+
 @app.route("/favorites", methods=["GET"])
 def favoritePolls():
     uid = request.args.get('uid')
@@ -157,7 +185,12 @@ def newPolls():
 @app.route("/my", methods=["GET"])
 def myPolls():
     uid = request.args.get('uid')
-    return getPolls(myRequest)
+    return getPolls(myRequest, [uid, uid, uid])
+
+@app.route("/voted", methods=["GET"])
+def votedPolls():
+    uid = request.args.get('uid')
+    return getPolls(votedRequest, [uid, uid, uid])
 
 def getPolls(request, uid):
     conn = mysql.connect()

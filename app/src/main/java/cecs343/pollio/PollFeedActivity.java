@@ -20,6 +20,9 @@ public class PollFeedActivity extends AppCompatActivity implements PollFragment.
 
     PollFragment newPolls;
     PollFragment favPolls;
+    PollFragment myPolls;
+    PollFragment votedPolls;
+    AccountFragment account;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -30,17 +33,32 @@ public class PollFeedActivity extends AppCompatActivity implements PollFragment.
                 case R.id.navigation_home:
                     ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.fragment_placeholder, newPolls);
+                    setTitle(R.string.title_home);
                     ft.commit();
                     return true;
                 case R.id.navigation_starred:
                     ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.fragment_placeholder, favPolls);
                     ft.commit();
+                    setTitle(R.string.title_starred);
+                    return true;
+                case R.id.navigation_mine:
+                    ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.fragment_placeholder, myPolls);
+                    ft.commit();
+                    setTitle(R.string.title_mypolls);
+                    return true;
+                case R.id.navigation_voted:
+                    ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.fragment_placeholder, votedPolls);
+                    ft.commit();
+                    setTitle(R.string.title_voted);
                     return true;
                 case R.id.navigation_account:
                     ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.fragment_placeholder, new AccountFragment());
+                    ft.replace(R.id.fragment_placeholder, account);
                     ft.commit();
+                    setTitle(R.string.title_account);
                     return true;
             }
             return false;
@@ -62,6 +80,9 @@ public class PollFeedActivity extends AppCompatActivity implements PollFragment.
 
         newPolls = PollFragment.newInstance("new");
         favPolls = PollFragment.newInstance("favorites");
+        myPolls = PollFragment.newInstance("my");
+        votedPolls = PollFragment.newInstance("voted");
+        account = new AccountFragment();
 
         // Begin the fragment transaction
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

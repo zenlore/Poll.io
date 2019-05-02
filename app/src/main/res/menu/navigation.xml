@@ -12,8 +12,20 @@
             android:title="@string/title_starred"/>
 
     <item
+            android:id="@+id/navigation_mine"
+            android:icon="@drawable/ic_folder_shared_black_24dp"
+            android:title="@string/title_mypolls"/>
+
+    <item
+            android:id="@+id/navigation_voted"
+            android:icon="@drawable/ic_poll_black_24dp"
+            android:title="@string/title_voted"/>
+
+    <item
             android:id="@+id/navigation_account"
             android:icon="@drawable/ic_person_black_24dp"
             android:title="@string/title_account"/>
+
+
 
 </menu>

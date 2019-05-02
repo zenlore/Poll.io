@@ -7,6 +7,12 @@
     <color name="colorIconFavorite">#dcce30</color>
     <color name="colorAccent">#b8ac4e</color>
 
+    <!-- Background colors -->
+    <color name="background1">#ffccbc</color>
+    <color name="background2">#f0f4c3</color>
+    <color name="background3">#c5e1a5</color>
+    <color name="background4">#a7ffeb</color>
+
     <!-- Chart Colors -->
     <color name="colorPoll1">#E49986</color>
     <color name="colorPoll2">#FFF86E</color>
