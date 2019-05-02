@@ -96,6 +96,9 @@ public class PollItem implements Parcelable {
     private PollItem(Parcel in) {
         title = in.readString();
         in.readList(options, PollOption.class.getClassLoader());
+        pollID = in.readInt();
+        voted = in.readInt();
+        favorited = in.readByte() == 0;
     }
 
     @Override
@@ -107,6 +110,9 @@ public class PollItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
         dest.writeList(options);
+        dest.writeInt(pollID);
+        dest.writeInt(voted);
+        dest.writeByte((byte)(favorited ? 1 : 0));
     }
 
     public static final Creator<PollItem> CREATOR = new Creator<PollItem>() {
