@@ -1,6 +1,7 @@
 package cecs343.pollio;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -74,6 +75,36 @@ public class PollRecyclerAdapter extends RecyclerView.Adapter<PollRecyclerAdapte
             }
         });
 
+        // Setup more button
+        ImageView moreIcon = viewHolder.moreIcon;
+        moreIcon.setTag(R.id.tag_pollitem_index, i);
+        moreIcon.setClickable(true);
+        moreIcon.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int index = (int)v.getTag(R.id.tag_pollitem_index);
+
+                // Parcelables won't pass correctly, so we have to pass this all in strings...
+                String title = polls.get(index).getTitle();
+                ArrayList<PollOption> options = polls.get(index).getOptions();
+
+                // in options arraylist, get text, get votes
+                ArrayList<String> optionText = new ArrayList<>();
+                ArrayList<Integer> optionVotes = new ArrayList<>();
+                for ( int j = 0; j < options.size(); j++ ) {
+                    optionText.add( options.get(j).getText() );
+                    optionVotes.add( options.get(j).getVotes() );
+                }
+
+                Intent intent= new Intent(context, ChartActivity.class);
+                intent.putExtra("title", title);
+                intent.putExtra("optionText", optionText);
+                intent.putExtra("optionVotes", optionVotes);
+                context.startActivity(intent);
+
+
+            }
+        });
 
         RadioGroup rg = viewHolder.radioGroup;
         rg.removeAllViews(); //Since RecyclerView literally reuses views, we need to clear the old poll options
@@ -130,12 +161,14 @@ public class PollRecyclerAdapter extends RecyclerView.Adapter<PollRecyclerAdapte
         TextView titleText;
         RadioGroup radioGroup;
         ImageView favoriteIcon;
+        ImageView moreIcon;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             titleText = itemView.findViewById(R.id.title_text);
             radioGroup = itemView.findViewById(R.id.poll_radio);
             favoriteIcon = itemView.findViewById(R.id.icon_favorite);
+            moreIcon = itemView.findViewById(R.id.icon_more);
         }
     }
 }

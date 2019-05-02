@@ -2,8 +2,8 @@ package cecs343.pollio;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import android.widget.TextView;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -14,6 +14,11 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import static com.github.mikephil.charting.animation.Easing.Linear;
 
+/**
+ * Activity that shows a results chart for an individual poll.
+ * (May add other information as it becomes available.)
+ */
+
 public class ChartActivity extends AppCompatActivity {
 
     @Override
@@ -21,34 +26,34 @@ public class ChartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart);
 
-        // TODO: Fix weird parcelable problem
-        // get the poll
-        PollItem poll = getIntent().getExtras().getParcelable("poll");
+        // Parcelable is not working for PollItem, so we have to do this
 
         // Getting information to put into graph
-        ArrayList<PollOption> pollOptions = poll.getOptions();
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        String[] xAxisLabels = new String[pollOptions.size()];
+        ArrayList<String> optionText = getIntent().getStringArrayListExtra("optionText");
+        ArrayList<Integer> optionVotes = getIntent().getIntegerArrayListExtra("optionVotes");
 
-        for (int i = 0; i < pollOptions.size(); i++ ){
-            entries.add( i, new BarEntry( (float) i , (float) pollOptions.get(i).getVotes() ));
-            xAxisLabels[i] = pollOptions.get(i).getText();
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        String[] xAxisLabels = new String[optionText.size()];
+
+        for (int i = 0; i < optionText.size(); i++ ){
+            entries.add( i, new BarEntry( (float) i , (float) optionVotes.get(i) ));
+            xAxisLabels[i] = optionText.get(i);
         }
 
         BarChart chart;
 
         // title
         TextView tv = findViewById(R.id.poll_title);
-        tv.setText(poll.getTitle());
+        tv.setText(getIntent().getStringExtra("title"));
 
         // Make chart
         chart = findViewById(R.id.results_chart);
         BarDataSet bds = new BarDataSet(entries, "Options");
-        bds.setColors( new ArrayList<>( Arrays.asList(R.color.colorPoll1, R.color.colorPoll2,
-                R.color.colorPoll3, R.color.colorPoll4, R.color.pollyGray) ) );
-        BarData data = new BarData( bds );
-        bds.setValueFormatter(new ChartValueFormatter());
         bds.setValueTextColor(R.color.pollyGray);
+        bds.setValueFormatter(new ChartValueFormatter());
+        bds.setColors(new int[]{R.color.colorPoll1, R.color.colorPoll2, R.color.colorPoll3, R.color.colorPoll4,
+                R.color.pollyGray}, this);
+        BarData data = new BarData(bds);
         chart.setData(data);
 
         // X Axis Customization
