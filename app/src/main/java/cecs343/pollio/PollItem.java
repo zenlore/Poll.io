@@ -35,7 +35,7 @@ public class PollItem implements Parcelable {
 
         String optionString = "";
         for (PollOption po : options) {
-            optionString += po.getText() + "|";
+            optionString += po.getText() + ",";
         }
         optionString = optionString.substring(0, optionString.length() - 1);
 
