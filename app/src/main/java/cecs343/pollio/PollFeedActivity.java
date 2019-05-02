@@ -24,6 +24,8 @@ public class PollFeedActivity extends AppCompatActivity implements PollFragment.
     PollFragment votedPolls;
     AccountFragment account;
 
+    public static GPSListener gps; // GPS variable
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -74,6 +76,9 @@ public class PollFeedActivity extends AppCompatActivity implements PollFragment.
         requestPermission("android.permission.ACCESS_FINE_LOCATION");
         requestPermission("android.permission.ACCESS_COARSE_LOCATION");
         requestPermission("android.permission.WRITES_EXTERNAL_STORAGE");
+
+        // GPS SETUP:
+        gps = new GPSListener(PollFeedActivity.this);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
