@@ -20,15 +20,10 @@ public class NewPollActivity extends AppCompatActivity{
     private PollItem pollItem;
     private EditText editTextPollTitle;
 
-    private GPSListener gps; // GPS variable
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_poll);
-
-        // GPS SETUP:
-        gps = new GPSListener(NewPollActivity.this);
 
         optionsList = populateList();
         pollOptionsAdapter = new PollOptionsAdapter(this, optionsList);
@@ -50,8 +45,8 @@ public class NewPollActivity extends AppCompatActivity{
                 }
 
                 // adding GPS coordinates to pollItem:
-                pollItem.setLatitude(gps.getLatitude());
-                pollItem.setLongitude(gps.getLongitude());
+                pollItem.setLatitude(PollFeedActivity.gps.getLatitude());
+                pollItem.setLongitude(PollFeedActivity.gps.getLongitude());
 
                 // logging pollItem to see if contents are correct:
                 Log.i("TITLE", pollItem.getTitle());
@@ -61,7 +56,7 @@ public class NewPollActivity extends AppCompatActivity{
                 Log.i("NUM OF OPTIONS", String.valueOf(pollItem.getNumOptions()));
                 Log.i("LATITUDE", Double.toString(pollItem.getLatitude()));
                 Log.i("LONGITUDE", Double.toString(pollItem.getLongitude()));
-                Log.i("CITY", gps.getCityName());
+                Log.i("CITY", PollFeedActivity.gps.getCityName());
 
                 // destroy this instance of NewPollActivity:
                 finish();
