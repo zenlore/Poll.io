@@ -50,14 +50,14 @@ public class Requestor {
             public void onSuccess(GetTokenResult result) {
                 final String idToken = result.getToken();
 
-                String url = "https://polls.lorenzen.dev/" + path;
+                final String url = "https://polls.lorenzen.dev/" + path;
 
 
                 StringRequest stringRequest = new StringRequest
                         (Request.Method.POST, url, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                Log.d("JSON", response);
+                                Log.d("HTPPRequest", response);
                             }
                         }, new Response.ErrorListener() {
 
@@ -65,7 +65,7 @@ public class Requestor {
                             public void onErrorResponse(VolleyError error) {
                                 // TODO: Handle error
                                 if (error.getMessage() != null) {
-                                    Log.d("JSON", error.getMessage());
+                                    Log.d("HTPPRequest", error.getMessage());
                                 }
                             }
                         })
@@ -73,6 +73,7 @@ public class Requestor {
                     @Override
                     public Map<String, String> getParams() {
                         args.put("token", idToken);
+                        Log.d("HTPPRequest", "POST; url: " + url + " args: " + args.toString());
                         return args;
                     }
                 };
@@ -94,7 +95,7 @@ public class Requestor {
 
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d("JSON", response.toString());
+                        Log.d("HTPPRequest", response.toString());
                         try{
                             for (int i = 0, size = response.length(); i < size; i++) {
                                 JSONObject jsonPoll = response.getJSONObject(i);
@@ -112,9 +113,9 @@ public class Requestor {
                             callback.onSuccess();
                         }
                         catch (Exception e){
-                            Log.d("JSON", "JSON EXCEPTION: " + e.getMessage());
+                            Log.d("HTPPRequest", "JSON EXCEPTION: " + e.getMessage());
                             for (StackTraceElement s : e.getStackTrace()) {
-                                Log.d("JSON", s.toString());
+                                Log.d("HTPPRequest", s.toString());
                             }
                         }
                     }
@@ -124,7 +125,7 @@ public class Requestor {
                     public void onErrorResponse(VolleyError error) {
                         // TODO: Handle error
                         if (error.getMessage() != null) {
-                            Log.d("JSON", error.getMessage());
+                            Log.d("HTPPRequest", error.getMessage());
                         }
                     }
                 })

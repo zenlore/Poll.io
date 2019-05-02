@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import android.widget.RadioGroup;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PollItem implements Parcelable {
 
@@ -14,6 +15,8 @@ public class PollItem implements Parcelable {
     private ArrayList<PollOption> options;
     private int voted;
     private boolean favorited;
+    private double latitude;
+    private double longitude;
 
     public PollItem(String title, boolean favorited, int id) {
         pollID = id;
@@ -21,6 +24,24 @@ public class PollItem implements Parcelable {
         this.options = new ArrayList<PollOption>();
         this.favorited = favorited;
         voted = -1;
+    }
+
+    public HashMap<String, String> getArgs() {
+        HashMap<String, String> args = new HashMap<>();
+
+        args.put("title", title);
+        args.put("latitude", Double.toString(latitude));
+        args.put("longitude", Double.toString(longitude));
+
+        String optionString = "";
+        for (PollOption po : options) {
+            optionString += po.getText() + "|";
+        }
+        optionString = optionString.substring(0, optionString.length() - 1);
+
+        args.put("options", optionString);
+
+        return args;
     }
 
     public int getTotalVotes() {
@@ -31,6 +52,21 @@ public class PollItem implements Parcelable {
         return total;
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
 
     public boolean toggleFavorited() {
         favorited = !favorited;

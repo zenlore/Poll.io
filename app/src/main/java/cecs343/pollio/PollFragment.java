@@ -2,10 +2,12 @@ package cecs343.pollio;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.sql.ParameterMetaData;
 import java.util.ArrayList;
 
 
@@ -27,6 +30,7 @@ import java.util.ArrayList;
  */
 public class PollFragment extends Fragment {
     private static final String PARAM_ROUTE = "Route of URL to retrieve from";
+    private static final String PARAM_COLOR = "Color of fragment background";
 
     private ArrayList<PollItem> pollList = new ArrayList<>();
     private String route;
@@ -100,7 +104,20 @@ public class PollFragment extends Fragment {
             }
         });
 
+        //hardcode background colors.. because I'm tired
         recyclerView = view.findViewById(R.id.poll_recycler_view);
+        if (route.equals("new")) {
+            recyclerView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.background1));
+        }
+        else if (route.equals("favorites")) {
+            recyclerView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorBackgroundLight));
+        }
+        else if (route.equals("my")) {
+            recyclerView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.background3));
+        }
+        else if (route.equals("voted")) {
+            recyclerView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.background4));
+        }
         PollRecyclerAdapter recyclerAdapter = new PollRecyclerAdapter(getContext(), pollList);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
