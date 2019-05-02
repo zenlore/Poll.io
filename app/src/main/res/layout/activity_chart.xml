@@ -1,12 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             tools:context=".ChartActivity" android:id="@+id/frameLayout"
-                                             android:theme="@style/Widget.Design.FloatingActionButton"
-        >
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ChartActivity" tools:layout_editor_absoluteY="25dp"
+        android:background="@color/colorBackgroundLight">
+
+    <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="29dp" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent" android:id="@+id/poll_title" android:textSize="24sp"
+            android:textColor="@color/pollyGray"/>
 
     <com.github.mikephil.charting.charts.BarChart android:layout_width="0dp"
                                                   android:layout_height="0dp" android:id="@+id/results_chart"
@@ -19,11 +26,4 @@
                                                   android:layout_marginBottom="16dp" android:layout_marginTop="16dp"
                                                   app:layout_constraintTop_toBottomOf="@+id/poll_title">
     </com.github.mikephil.charting.charts.BarChart>
-    <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="29dp" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent" android:id="@+id/poll_title" android:textSize="24sp"
-            android:textColor="@color/pollyGray"/>
 </android.support.constraint.ConstraintLayout>

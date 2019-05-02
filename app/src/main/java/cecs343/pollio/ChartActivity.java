@@ -85,8 +85,6 @@ public class ChartActivity extends AppCompatActivity {
         // Animations
         chart.animateY(1000, Linear);
 
-        // refresh
-        chart.invalidate();
 
     }
 }
