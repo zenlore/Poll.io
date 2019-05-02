@@ -137,10 +137,12 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
         googleMap.setOnMyLocationButtonClickListener(this);
         googleMap.setOnMyLocationClickListener(this);
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        //call getGPSCoord to get log and lag
 
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(40.689247, -74.044502)));
-        CameraPosition current = CameraPosition.builder().target(new LatLng(40.689247, -74.044502)).zoom(16).bearing(0).tilt(45).build();
+        double currentLat = PollFeedActivity.gps.getLatitude();
+        double currentLong = PollFeedActivity.gps.getLongitude();
+
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(currentLat, currentLong)));
+        CameraPosition current = CameraPosition.builder().target(new LatLng(currentLat, currentLong)).zoom(16).bearing(0).tilt(45).build();
         googleMap.moveCamera((CameraUpdateFactory.newCameraPosition(current)));
     }
     @Override
