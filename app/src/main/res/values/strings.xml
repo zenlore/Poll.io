@@ -28,4 +28,8 @@
     <string name="title_activity_poll_feed">PollFeedActivity</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="poll_posted_label">Posted From</string>
+    <string name ="poll_results_text">Poll Results</string>
+    <string name="account_welcome">Welcome</string>
 </resources>

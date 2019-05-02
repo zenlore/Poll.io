@@ -6,22 +6,13 @@
                 tools:context=".AccountFragment">
 
     <TextView
-            android:text="TextView"
-            android:layout_width="150dp"
-            android:layout_height="34dp" tools:layout_editor_absoluteY="83dp"
-            android:id="@+id/textView3"
-            app:layout_constraintStart_toEndOf="@+id/welcome" android:textSize="18sp"
-            android:fontFamily="@font/finger_paint" android:textColor="?attr/colorAccent"
-            android:layout_below="@+id/imageView2"
-            app:layout_constraintTop_toTopOf="parent" android:layout_alignEnd="@+id/logout_button"/>
-    <TextView
-            android:text="Welcome"
+            android:text="@string/account_welcome"
             android:layout_width="96dp"
             android:layout_height="wrap_content" tools:layout_editor_absoluteY="83dp"
             android:id="@+id/welcome" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="49dp" android:fontFamily="@font/finger_paint" android:textSize="18sp"
-            android:layout_alignParentStart="true" android:layout_below="@+id/imageView2"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="3dp"/>
+            android:fontFamily="@font/finger_paint" android:textSize="18sp"
+            android:layout_below="@+id/imageView2"
+            app:layout_constraintTop_toTopOf="parent" android:layout_centerHorizontal="true"/>
     <com.google.android.gms.maps.MapView
             android:id="@+id/map"
             android:layout_width="331dp"

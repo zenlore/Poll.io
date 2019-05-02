@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import java.util.ArrayList;
+
 import android.widget.TextView;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -12,6 +13,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+
 import static com.github.mikephil.charting.animation.Easing.Linear;
 
 /**
@@ -20,6 +22,9 @@ import static com.github.mikephil.charting.animation.Easing.Linear;
  */
 
 public class ChartActivity extends AppCompatActivity {
+
+    private ArrayList<BarEntry> entries;
+    private String[] xAxisLabels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +79,7 @@ public class ChartActivity extends AppCompatActivity {
         yAxis.setAxisLineColor(R.color.pollyGray);
         yAxis.setGridColor(R.color.pollyGray);
         yAxis.setTextColor(R.color.pollyGray);
+        yAxis.setAxisMinValue(0f);
 
         // Legend
         chart.getLegend().setEnabled(false);
@@ -85,6 +91,6 @@ public class ChartActivity extends AppCompatActivity {
         // Animations
         chart.animateY(1000, Linear);
 
-
     }
+
 }
