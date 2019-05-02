@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import java.util.ArrayList;
 
-public class NewPollActivity extends AppCompatActivity {
+public class NewPollActivity extends AppCompatActivity{
 
     private Button submitBtn;
     private Button addNewOptionBtn;
@@ -20,10 +20,15 @@ public class NewPollActivity extends AppCompatActivity {
     private PollItem pollItem;
     private EditText editTextPollTitle;
 
+    GPSListener gps; // GPS variable
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_poll);
+
+        // GPS SETUP:
+        gps = new GPSListener(NewPollActivity.this);
 
         optionsList = populateList();
         pollOptionsAdapter = new PollOptionsAdapter(this, optionsList);
@@ -44,7 +49,9 @@ public class NewPollActivity extends AppCompatActivity {
                 }
 
                 // TODO: add GPS coordinates to pollItem:
-
+                Log.i("LONGITUDE", Double.toString(gps.getLongitude()));
+                Log.i("LATITUDE", Double.toString(gps.getLatitude()));
+                Log.i("CITY", gps.getCityName());
 
                 // logging pollItem to see if contents are correct:
                 Log.i("title", pollItem.getTitle());
@@ -84,6 +91,7 @@ public class NewPollActivity extends AppCompatActivity {
     private int getIDfromDB(){
         return 1337;
     }
+
 
 
 }

@@ -1,51 +1,40 @@
 package cecs343.pollio;
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.Service;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.widget.TextView;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.location.*;
+import android.os.Bundle;
+import android.util.Log;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import static android.content.Context.LOCATION_SERVICE;
-import static android.support.v4.content.ContextCompat.getSystemService;
 
-public class getGPSCoord implements LocationListener {
+public class GPSListener implements LocationListener {
 
     private Context mContext;
-    //variable to check if user's netweork is enabled
-    boolean isNetworkEnabled = false;
-    //variable to check if user's GPS is enabled
-    boolean isGPSEnabled = false;
+    private boolean isNetworkEnabled = false; // variable to check if user's network is enabled
+    private boolean isGPSEnabled = false; // variable to check if user's GPS is enabled
 
-    //Location variable
-    Location location;
-    double latitude;
-    double longitude;
+    private Location location;// location variable
+
+    private double latitude;
+    private double longitude;
     protected LocationManager locationManager;
-    TextView locationText;
 
-    //min distance to update
-    private static final long MIN_DIST_FOR_UPDATES = 10;
+    private static final long MIN_DIST_FOR_UPDATES = 10; // min distance to update
 
-    //min time between updates (in milliseconds)
-    private static final long MIN_TIME_FOR_UPDATES = 60000; //1 min
+    private static final long MIN_TIME_FOR_UPDATES = 5000; // min time between updates (in milliseconds)
 
-
-    /*
-    This will be the function we use in other parts of the code
-    * GETS the user's GPS location
-     */
-    public getGPSCoord(){
-        getLocation();
+    public GPSListener(Context mContext) {
+        this.mContext = mContext;
+        updateLocation();
     }
+
     @SuppressLint("MissingPermission")
-    public Location getLocation(){
+    private Location updateLocation(){
         try{
             locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
             //GPS Status
@@ -82,36 +71,54 @@ public class getGPSCoord implements LocationListener {
                     longitude = location.getLongitude();
                 }
             }
-
-
         }
         catch(Exception e){
             e.printStackTrace();
-
         }
-        //finally get the user's location!
+
+        // finally get the user's location!
         return location;
     }
+
     /**
      * Function to get latitude
-     * */
+     * @return a double representation of latitude
+     */
     public double getLatitude(){
-        latitude = location.getLatitude();
-        // return latitude
         return latitude;
     }
 
     /**
      * Function to get longitude
-     * */
+     * @return a double representation of longitude
+     */
     public double getLongitude(){
-        longitude = location.getLongitude();
-        // return longitude
         return longitude;
     }
+
+    public String getCityName(){
+        String cityName = null;
+        Geocoder gcd = new Geocoder(mContext, Locale.getDefault());
+        List<Address> addresses;
+
+        try {
+            addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            if (addresses.size() > 0) {
+                cityName = addresses.get(0).getLocality();
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return cityName;
+    }
+
     @Override
     public void onLocationChanged(Location location) {
-        locationText.setText("Current Location: " + location.getLatitude() + ", " + location.getLongitude());
+        updateLocation();
+        Log.i("LONGITUDE: ", Double.toString(longitude));
+        Log.i("LATITUDE: ", Double.toString(longitude));
     }
 
     @Override
