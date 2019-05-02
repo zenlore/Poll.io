@@ -37,8 +37,8 @@ public class ChartActivity extends AppCompatActivity {
         ArrayList<String> optionText = getIntent().getStringArrayListExtra("optionText");
         ArrayList<Integer> optionVotes = getIntent().getIntegerArrayListExtra("optionVotes");
 
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        String[] xAxisLabels = new String[optionText.size()];
+        entries = new ArrayList<>();
+        xAxisLabels = new String[optionText.size()];
 
         for (int i = 0; i < optionText.size(); i++ ){
             entries.add( i, new BarEntry( (float) i , (float) optionVotes.get(i) ));
