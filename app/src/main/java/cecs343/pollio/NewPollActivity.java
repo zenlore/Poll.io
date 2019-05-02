@@ -20,7 +20,7 @@ public class NewPollActivity extends AppCompatActivity{
     private PollItem pollItem;
     private EditText editTextPollTitle;
 
-    GPSListener gps; // GPS variable
+    private GPSListener gps; // GPS variable
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,21 +44,24 @@ public class NewPollActivity extends AppCompatActivity{
             public void onClick(View view) {
                 pollItem = new PollItem(editTextPollTitle.getText().toString(), false, getIDfromDB());
 
+                // adding optionsLists to pollItem:
                 for (int i = 0; i < optionsList.size(); i++) {
                     pollItem.addPollOption(new PollOption(optionsList.get(i).getEditTextValue(), 0));
                 }
 
-                // TODO: add GPS coordinates to pollItem:
-                Log.i("LONGITUDE", Double.toString(gps.getLongitude()));
-                Log.i("LATITUDE", Double.toString(gps.getLatitude()));
-                Log.i("CITY", gps.getCityName());
+                // adding GPS coordinates to pollItem:
+                pollItem.setLatitude(gps.getLatitude());
+                pollItem.setLongitude(gps.getLongitude());
 
                 // logging pollItem to see if contents are correct:
-                Log.i("title", pollItem.getTitle());
+                Log.i("TITLE", pollItem.getTitle());
                 for (int i = 0; i < pollItem.getOptions().size(); i++) {
                     Log.i(String.valueOf(i+1), pollItem.getOptions().get(i).getText());
                 }
-                Log.i("size", String.valueOf(pollItem.getNumOptions()));
+                Log.i("NUM OF OPTIONS", String.valueOf(pollItem.getNumOptions()));
+                Log.i("LATITUDE", Double.toString(pollItem.getLatitude()));
+                Log.i("LONGITUDE", Double.toString(pollItem.getLongitude()));
+                Log.i("CITY", gps.getCityName());
 
                 // destroy this instance of NewPollActivity:
                 finish();
