@@ -45,23 +45,25 @@ def createPoll():
     
     return "No Error"
 
+
 @app.route('/register', methods=["POST"])
 def register():
-    id_token = request.args['token']
+    id_token = request.values['token']
     decoded_token = auth.verify_id_token(id_token)
     userid = decoded_token['uid']
+    # userid = request.values['uid']
 
-    displayname = request.args['displayname']
+    displayname = request.values['displayname']
 
     conn = mysql.connect()
     cursor = conn.cursor()
     cursor.execute('INSERT INTO Users (uid, displayname) VALUES '
                    '(%s, %s)', [userid, displayname])
     conn.commit()
-    return "No Error"
+    return "No Error\n"
 
 @app.route('/displayname', methods=["GET"])
-def register():
+def getDisplayname():
     conn = mysql.connect()
     cursor =conn.cursor()
     uid = request.args.get('uid')
@@ -89,7 +91,7 @@ def vote():
     cursor.execute('INSERT INTO VoteItem (pollID, optionText, uid, voteTime) VALUES '
         '(%s, %s, %s, CURRENT_TIMESTAMP)', [pollID, vote, voter])
     conn.commit()
-    return "No Error"
+    return "No Error\n"
 
 @app.route('/favorite', methods=["POST"])
 def favorite():
@@ -112,19 +114,10 @@ def favorite():
 
 
     conn.commit()
-    return "No Error"
+    return "No Error\n"
 
 
-@app.route("/new", methods=["GET"])
-def newPolls():
-    conn = mysql.connect()
-    cursor =conn.cursor()
-
-
-    uid = request.args.get('uid')
-
-    cursor.execute(
-        'SELECT mop.pollID, title, GROUP_CONCAT(optionText) AS options, GROUP_CONCAT(voteCount) AS votes, mop.uid AS creator, '
+newRequest = ('SELECT mop.pollID, title, GROUP_CONCAT(optionText) AS options, GROUP_CONCAT(voteCount) AS votes, mop.uid AS creator, '
             '(SELECT v.optionText FROM VoteItem v WHERE v.pollID = mop.pollID AND v.uid = %s) as voted, '
             '(SELECT \'true\' FROM Favorite f WHERE mop.pollID = f.pollID AND f.uid = %s) as favorite '
                 'FROM MultiOptionPoll mop '
@@ -135,31 +128,9 @@ def newPolls():
                         'ON po2.optionText = vote.optionText '
                         'AND po2.pollID = vote.pollID '
                     'GROUP BY po2.pollID, po2.optionText) AS concat ON mop.pollID = concat.pollID '
-            'GROUP BY mop.pollID;',
-            [uid, uid]
-        )
-    data = cursor.fetchall()
-    polls = []
+            'GROUP BY mop.pollID;')
 
-    for entry in data:
-        poll = Poll(entry[0], entry[1], entry[4], entry[5], entry[6] != None)
-        options = entry[2].split(',')
-        votes = entry[3].split(',')
-        for i in range(len(options)):
-            poll.addOption(options[i], votes[i])
-        polls.append(poll.toJSON())
-
-    return jsonify(polls)
-
-@app.route("/favorites", methods=["GET"])
-def favoritePolls():
-    conn = mysql.connect()
-    cursor =conn.cursor()
-
-    uid = request.args.get('uid')
-
-    cursor.execute(
-        'SELECT mop.pollID, title, GROUP_CONCAT(optionText) AS options, GROUP_CONCAT(voteCount) AS votes, mop.uid AS creator, '
+favoriteRequest = ('SELECT mop.pollID, title, GROUP_CONCAT(optionText) AS options, GROUP_CONCAT(voteCount) AS votes, mop.uid AS creator, '
             '(SELECT v.optionText FROM VoteItem v WHERE v.pollID = mop.pollID AND v.uid = %s) as voted, '
             '(SELECT \'true\' FROM Favorite f WHERE mop.pollID = f.pollID AND f.uid = %s) as favorite '
                 'FROM MultiOptionPoll mop '
@@ -171,10 +142,28 @@ def favoritePolls():
                         'AND po2.pollID = vote.pollID '
                     'GROUP BY po2.pollID, po2.optionText) AS concat ON mop.pollID = concat.pollID '
             'INNER JOIN Favorite F2 on mop.pollID = F2.pollID AND F2.uid = %s'
-            'GROUP BY mop.pollID;',
-            [uid, uid, uid]
-            # [current_user.name, current_user.name]
-        )
+            'GROUP BY mop.pollID;')
+
+@app.route("/favorites", methods=["GET"])
+def favoritePolls():
+    uid = request.args.get('uid')
+    return getPolls(favoriteRequest, [uid, uid, uid])
+
+@app.route("/new", methods=["GET"])
+def newPolls():
+    uid = request.args.get('uid')
+    return getPolls(newRequest, [uid, uid])
+
+@app.route("/my", methods=["GET"])
+def myPolls():
+    uid = request.args.get('uid')
+    return getPolls(myRequest)
+
+def getPolls(request, uid):
+    conn = mysql.connect()
+    cursor =conn.cursor()
+
+    cursor.execute(request, uid)
     data = cursor.fetchall()
     polls = []
 
