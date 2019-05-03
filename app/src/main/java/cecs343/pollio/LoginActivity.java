@@ -80,7 +80,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private Button mEmailSignInButton;
     private TextView forgotPassText;
-    private FrameLayout fragmentContainer;
 
     //Firebase object
     private FirebaseAuth mAuth;
@@ -161,7 +160,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         //Sign in with google
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.server_client_id))
+                .requestIdToken(getString(R.string.google_sign_in_id))
                 .requestEmail()
                 .build();
         //Then we will get the GoogleSignInClient object from GoogleSignIn class

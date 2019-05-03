@@ -50,23 +50,6 @@
                     android:maxLength="15"/>
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <EditText
-                    android:id="@+id/last_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_lastname"
-                    android:imeActionId="6"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
-
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:fontFamily="@font/finger_paint" android:textAlignment="textStart"/>
-        </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -98,7 +81,7 @@
 
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:fontFamily="@font/finger_paint"/>
+                    android:fontFamily="@font/finger_paint" android:inputType="textPassword"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -116,7 +99,7 @@
 
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:fontFamily="@font/finger_paint"/>
+                    android:fontFamily="@font/finger_paint" android:inputType="textPassword"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -128,8 +111,8 @@
             android:text="@string/action_register"
             android:textStyle="bold"
             android:layout_weight="1"
-            android:layout_alignParentBottom="true" android:layout_marginBottom="92dp"
-            android:layout_centerHorizontal="true" android:layout_height="wrap_content"/>
+            android:layout_centerHorizontal="true" android:layout_height="wrap_content"
+            android:layout_above="@+id/imageView5"/>
     <ImageView
             android:id="@+id/imageView5"
             android:layout_height="114dp"
