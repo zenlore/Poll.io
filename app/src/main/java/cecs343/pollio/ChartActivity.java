@@ -87,6 +87,7 @@ public class ChartActivity extends AppCompatActivity {
         // Random other things
         chart.getDescription().setEnabled(false);
         chart.setBackgroundColor(getResources().getColor(R.color.colorBackgroundLight));
+        chart.setTouchEnabled(false);
 
         // Animations
         chart.animateY(1000, Linear);
