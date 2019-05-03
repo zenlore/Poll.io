@@ -48,8 +48,8 @@ public class NewPollActivity extends AppCompatActivity{
                 }
 
                 // adding GPS coordinates to pollItem:
-                pollItem.setLatitude(PollFeedActivity.gps.getLatitude());
-                pollItem.setLongitude(PollFeedActivity.gps.getLongitude());
+                pollItem.setLatitude(GPSListener.getInstance().getLatitude());
+                pollItem.setLongitude(GPSListener.getInstance().getLongitude());
 
                 HashMap<String, String> args = pollItem.getArgs();
                 Requestor.postRequest(getApplicationContext(), "create", FirebaseAuth.getInstance().getCurrentUser(), args);
@@ -62,7 +62,7 @@ public class NewPollActivity extends AppCompatActivity{
                 Log.i("NUM OF OPTIONS", String.valueOf(pollItem.getNumOptions()));
                 Log.i("LATITUDE", Double.toString(pollItem.getLatitude()));
                 Log.i("LONGITUDE", Double.toString(pollItem.getLongitude()));
-                Log.i("CITY", PollFeedActivity.gps.getCityName());
+                Log.i("CITY", GPSListener.getInstance().getCityName());
 
                 // destroy this instance of NewPollActivity:
                 finish();

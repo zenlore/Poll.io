@@ -14,6 +14,8 @@ import static android.content.Context.LOCATION_SERVICE;
 
 public class GPSListener implements LocationListener {
 
+    private static GPSListener instance;
+
     private Context mContext;
     private boolean isNetworkEnabled = false; // variable to check if user's network is enabled
     private boolean isGPSEnabled = false; // variable to check if user's GPS is enabled
@@ -28,9 +30,21 @@ public class GPSListener implements LocationListener {
 
     private static final long MIN_TIME_FOR_UPDATES = 5000; // min time between updates (in milliseconds)
 
-    public GPSListener(Context mContext) {
+    private GPSListener(Context mContext) {
         this.mContext = mContext;
         updateLocation();
+    }
+
+    public static GPSListener initGPS(Context mContext){
+        if(instance == null){
+            instance = new GPSListener(mContext);
+        }
+
+        return instance;
+    }
+
+    public static GPSListener getInstance(){
+        return instance;
     }
 
     @SuppressLint("MissingPermission")
