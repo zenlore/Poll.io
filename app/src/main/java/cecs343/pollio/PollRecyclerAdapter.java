@@ -3,6 +3,7 @@ package cecs343.pollio;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ImageViewCompat;
@@ -14,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.DecimalFormat;
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -119,19 +122,32 @@ public class PollRecyclerAdapter extends RecyclerView.Adapter<PollRecyclerAdapte
 
     private void setupOptions(RadioGroup rg, PollItem curPoll) {
         Log.d("TEST", curPoll.getArgs().toString());
+        int count = 0;
+        Format decimalFormat = new DecimalFormat("0.#");
         for(PollOption pi : curPoll.getOptions()) {
             //Generate each poll option individually
             RadioButton rb = new RadioButton(context);
             rb.setId(View.generateViewId());
-            rb.setText(pi.getText());
+            if (curPoll.getVoted() != -1) {
+                float totalVotes = curPoll.getTotalVotes();
+                rb.setText(decimalFormat.format((pi.getVotes() / totalVotes) * 100) + "% " + pi.getText());
+                rb.setClickable(false);
+                if (curPoll.getVoted() == count) {
+                    rb.setTypeface(null, Typeface.BOLD);
+                }
+            }
+            else {
+                rb.setText(pi.getText());
+            }
             rg.addView(rb);
+            count++;
         }
 
         rg.setOnCheckedChangeListener(null); // This prevents triggering onCheckChanged when you scroll by previously checked items
         if (curPoll.getVoted() >= 0){ // if this poll has been voted on, check the option we already touched
             rg.check(rg.getChildAt(curPoll.getVoted()).getId()); //Get the voted radiobutton id by index and check it
         }
-
+        final PollRecyclerAdapter recyclerAdapter = this;
         // method that defines what happens when you check one of the poll options
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
@@ -149,6 +165,7 @@ public class PollRecyclerAdapter extends RecyclerView.Adapter<PollRecyclerAdapte
                 Requestor.postRequest(context.getApplicationContext(), "vote", FirebaseAuth.getInstance().getCurrentUser(), args);
 
                 poll.vote(index);
+                recyclerAdapter.notifyItemChanged(pollIndex);
                 //refresh the poll number count
 
                 //show the back of the card aka the current poll results

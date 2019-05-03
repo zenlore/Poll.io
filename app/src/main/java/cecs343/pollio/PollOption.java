@@ -30,6 +30,10 @@ public class PollOption implements Parcelable{
         this.votes = votes;
     }
 
+    public void addVote() {
+        votes++;
+    }
+
 
     /* PARCELABLE INTERFACE */
 

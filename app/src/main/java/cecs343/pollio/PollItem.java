@@ -84,6 +84,7 @@ public class PollItem implements Parcelable {
     //Method to cast a vote for a specific option index
     public void vote(int voted) {
         this.voted = voted;
+        options.get(voted).addVote();
     }
 
     public String getTitle() {
