@@ -60,7 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void register(){
         //Store the user's data that they entered
-        String email = registerEmailText.getText().toString();
+        String email = registerEmailText.getText().toString().trim(); //getrid of white spaces
         String password = registerPassText.getText().toString();
         String confirmPass = confirmPassText.getText().toString();
         final String dName = displayNameText.getText().toString();

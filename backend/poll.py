@@ -1,7 +1,7 @@
 
 class Poll:
 
-    def __init__(self, pollID, title, creator, voted, favorited):
+    def __init__(self, pollID, title, creator, voted, favorited, lat, longitude):
         self.pollID = pollID
         self.title = title
         self.creator = creator
@@ -9,6 +9,8 @@ class Poll:
         self.favorited = favorited
         self.options = []
         self.votes = []
+        self.lat = lat
+        self.longitude = longitude
 
 
     def addOption(self, option, voteCount):
@@ -24,7 +26,9 @@ class Poll:
             'voted' : self.voted,
             'favorited' : self.favorited,
             'options' : self.options,
-            'votes' : self.votes
+            'votes' : self.votes,
+            'latitude' : self.lat,
+            'longitude' : self.longitude
             }
         return json
 
