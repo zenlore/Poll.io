@@ -26,6 +26,77 @@
                     android:layout_marginEnd="0dp" android:layout_marginRight="0dp"
                     android:layout_width="330dp" app:layout_constraintEnd_toEndOf="parent"
                     android:layout_gravity="center_horizontal" android:layout_marginBottom="8dp"/>
+            <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:text="@string/stats_polls_made"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/stats_polls_made_label"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/finger_paint"
+                        android:textSize="14sp" app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="16dp"/>
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/stats_polls_made"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="16dp" app:layout_constraintStart_toEndOf="@+id/stats_polls_made_label"
+                        android:layout_marginStart="8dp" android:fontFamily="@font/finger_paint"
+                        android:textColor="@color/colorPrimary"/>
+                <TextView
+                        android:text="@string/stats_polls_favorited"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/stats_polls_favorited_label"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="16dp" android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toBottomOf="@+id/stats_polls_made_label"
+                        android:fontFamily="@font/finger_paint"/>
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/stats_polls_favorited"
+                        app:layout_constraintStart_toEndOf="@+id/stats_polls_favorited_label"
+                        android:layout_marginStart="8dp" android:textColor="@color/colorPrimary"
+                        android:fontFamily="@font/finger_paint" android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toBottomOf="@+id/stats_polls_made"/>
+                <TextView
+                        android:text="@string/stats_voted_on"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/stats_polls_voted_on_label"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="16dp" android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toBottomOf="@+id/stats_polls_favorited_label"
+                        android:fontFamily="@font/finger_paint"/>
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/stats_polls_voted_on"
+                        android:textColor="@color/colorPrimary" android:fontFamily="@font/finger_paint"
+                        app:layout_constraintStart_toEndOf="@+id/stats_polls_voted_on_label"
+                        android:layout_marginStart="8dp" android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toBottomOf="@+id/stats_polls_favorited"/>
+                <TextView
+                        android:text="@string/stats_votes_cast"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/stats_total_votes_label"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="16dp" android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toBottomOf="@+id/stats_polls_voted_on_label"
+                        android:fontFamily="@font/finger_paint" app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="16dp"/>
+                <TextView
+                        android:text="TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/stats_total_votes"
+                        android:fontFamily="@font/finger_paint" android:textColor="@color/colorPrimary"
+                        app:layout_constraintStart_toEndOf="@+id/stats_total_votes_label"
+                        android:layout_marginStart="8dp" android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toBottomOf="@+id/stats_polls_voted_on"/>
+            </android.support.constraint.ConstraintLayout>
             <Button
                     android:text="@string/account_change_password"
                     android:layout_width="241dp"
@@ -38,6 +109,10 @@
                     android:layout_height="wrap_content" tools:layout_editor_absoluteY="386dp"
                     app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
                     android:id="@+id/logout_button" android:layout_gravity="center_horizontal"/>
+            <ImageView
+                    android:src="@drawable/grass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/acct_grass_bottom"/>
         </LinearLayout>
     </ScrollView>
     <RelativeLayout

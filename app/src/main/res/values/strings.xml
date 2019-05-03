@@ -36,5 +36,10 @@
     <string name="account_welcome">Welcome</string>
     <string name="account_change_password">Change Password</string>
     <string name="account_logout">Log Out</string>
+    <string name="stats_polls_made">Polls Made</string>
+    <string name="stats_voted_on">Polls Voted On</string>
+    <string name="stats_votes_cast">Total Votes Cast</string>
+    <string name="stats_polls_favorited">Polls Favorited</string>
+    <string name="stats_favorited_by_others">Polls Favorited By Others</string>
 
 </resources>
