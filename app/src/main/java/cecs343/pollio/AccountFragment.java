@@ -158,6 +158,7 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
     }
     private void signOut(){
         mAuth.getInstance().signOut();
+
         Intent getToLogin = new Intent(getActivity(),LoginActivity.class);
 
         getToLogin.putExtra("finish", true);
