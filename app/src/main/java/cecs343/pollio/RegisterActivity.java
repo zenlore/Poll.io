@@ -75,8 +75,8 @@ public class RegisterActivity extends AppCompatActivity {
         else if(!TextUtils.equals(password, confirmPass)){
             Toast.makeText(this, "Your passwords do not match.", Toast.LENGTH_SHORT).show();
         }
-        else if(password.length() < 5) {
-            Toast.makeText(RegisterActivity.this, "ERROR: Password must be at least 5 characters in length.", Toast.LENGTH_SHORT).show();
+        else if(password.length() < 6) {
+            Toast.makeText(RegisterActivity.this, "ERROR: Password must be at least 6 characters in length.", Toast.LENGTH_SHORT).show();
 
         }
         //if all requirements are passed
@@ -92,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     //check if the task is NOT completed
                     if(!task.isSuccessful()){
-                        Toast.makeText(RegisterActivity.this, "ERROR: Registration failed.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "ERROR: Registration failed. Please make sure your password is at least 5 characters long", Toast.LENGTH_SHORT).show();
                     }
                     else{
                         //puts displayName into the database
