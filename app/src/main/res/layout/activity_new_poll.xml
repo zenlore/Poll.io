@@ -28,20 +28,10 @@
             android:id="@+id/poll_options"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:divider="#00000000"
             app:layout_constraintTop_toBottomOf="@id/text_input_layout_title"></ListView>
 
-    <Button
-            android:id="@+id/main_add_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="+"
-            app:layout_constraintTop_toBottomOf="@id/poll_options"/>
-
-    <Button
-            android:id="@+id/submit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="submit"
-            app:layout_constraintTop_toBottomOf="@id/main_add_btn"/>
 
 </android.support.constraint.ConstraintLayout>

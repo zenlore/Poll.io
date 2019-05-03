@@ -7,6 +7,8 @@
     <string name="title_voted">Voted On</string>
 
     <string name="server_client_id">616282045809-ss88h6akvareic53rsa5v5035uj7vbpt.apps.googleusercontent.com</string>
+    <string name="google_sign_in_id">616282045809-nnefe0d4171u7jehuqbne1krmn96rvqr.apps.googleusercontent.com</string>
+
     <item type="id" name="tag_pollitem_index"/>
     <string name="title_activity_test">TestActivity</string>
     <string name="title_activity_main">Sign in</string>
@@ -14,11 +16,12 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <string name="prompt_displayName">First Name</string>
+    <string name="prompt_displayName">Display Name</string>
     <string name="prompt_lastname">Last Name</string>
     <string name="prompt_reenterpass">Re-enter your password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_register">Register</string>
+    <string name="action_register_login">Don\'t have an account? Register now!</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>

@@ -127,8 +127,8 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
         googleMap.setOnMyLocationClickListener(this);
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-        double currentLat = PollFeedActivity.gps.getLatitude();
-        double currentLong = PollFeedActivity.gps.getLongitude();
+        double currentLat = GPSListener.getInstance().getLatitude();
+        double currentLong = GPSListener.getInstance().getLongitude();
 
         googleMap.addMarker(new MarkerOptions().position(new LatLng(currentLat, currentLong)));
         CameraPosition current = CameraPosition.builder().target(new LatLng(currentLat, currentLong)).zoom(16).bearing(0).tilt(45).build();
@@ -147,6 +147,7 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
     }
     private void signOut(){
         mAuth.getInstance().signOut();
+
         Intent getToLogin = new Intent(getActivity(),LoginActivity.class);
 
         getToLogin.putExtra("finish", true);

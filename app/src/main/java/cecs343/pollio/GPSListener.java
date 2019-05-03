@@ -5,14 +5,18 @@ import android.content.Context;
 import android.location.*;
 import android.os.Bundle;
 import android.util.Log;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 import static android.content.Context.LOCATION_SERVICE;
 
 public class GPSListener implements LocationListener {
+
+    private static GPSListener instance;
 
     private Context mContext;
     private boolean isNetworkEnabled = false; // variable to check if user's network is enabled
@@ -28,9 +32,20 @@ public class GPSListener implements LocationListener {
 
     private static final long MIN_TIME_FOR_UPDATES = 5000; // min time between updates (in milliseconds)
 
-    public GPSListener(Context mContext) {
+    private GPSListener(Context mContext) {
         this.mContext = mContext;
         updateLocation();
+    }
+
+    public static GPSListener initGPS(Context mContext){
+        if(instance == null){
+            instance = new GPSListener(mContext);
+        }
+        return instance;
+    }
+
+    public static GPSListener getInstance(){
+        return instance;
     }
 
     @SuppressLint("MissingPermission")
@@ -45,7 +60,6 @@ public class GPSListener implements LocationListener {
             //if there is no gps and no network
             if(!isGPSEnabled && !isNetworkEnabled){
                 //please turn allow us to use your location
-
             }
             else{
                 //if NETWORK ....
@@ -76,7 +90,12 @@ public class GPSListener implements LocationListener {
             e.printStackTrace();
         }
 
-        // finally get the user's location!
+        // might need this later:
+//        HashMap<String, String> args = new HashMap<>();
+//        args.put("currentlat", Double.toString(latitude));
+//        args.put("currentlong", Double.toString(longitude));
+//        Requestor.postRequest(mContext.getApplicationContext(), "currentloc", FirebaseAuth.getInstance().getCurrentUser(), args);
+
         return location;
     }
 
@@ -85,6 +104,7 @@ public class GPSListener implements LocationListener {
      * @return a double representation of latitude
      */
     public double getLatitude(){
+        updateLocation();
         return latitude;
     }
 
@@ -93,6 +113,7 @@ public class GPSListener implements LocationListener {
      * @return a double representation of longitude
      */
     public double getLongitude(){
+        updateLocation();
         return longitude;
     }
 
@@ -117,8 +138,8 @@ public class GPSListener implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         updateLocation();
-        Log.i("LONGITUDE: ", Double.toString(longitude));
-        Log.i("LATITUDE: ", Double.toString(longitude));
+        Log.i("LATITUDE ", Double.toString(latitude));
+        Log.i("LONGITUDE ", Double.toString(longitude));
     }
 
     @Override

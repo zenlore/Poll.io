@@ -3,8 +3,9 @@ package cecs343.pollio;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ListView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -14,8 +15,6 @@ import java.util.HashMap;
 
 public class NewPollActivity extends AppCompatActivity{
 
-    private Button submitBtn;
-    private Button addNewOptionBtn;
     private ListView listViewOfOptions;
     private PollOptionsAdapter pollOptionsAdapter;
     public ArrayList<EditModel> optionsList;
@@ -28,6 +27,10 @@ public class NewPollActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_poll);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // shows back button on the action bar
+
+        setTitle("Add New Poll");
+
         optionsList = populateList();
         pollOptionsAdapter = new PollOptionsAdapter(this, optionsList);
 
@@ -35,12 +38,30 @@ public class NewPollActivity extends AppCompatActivity{
         listViewOfOptions.setAdapter(pollOptionsAdapter);
 
         editTextPollTitle = (EditText) findViewById(R.id.poll_title_question);
+    }
 
-        submitBtn = (Button) findViewById(R.id.submit);
-        submitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pollItem = new PollItem(editTextPollTitle.getText().toString(), false, getIDfromDB());
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.new_poll_action_bar_layout, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.add_new_poll_opt) {
+            if(optionsList.size() < 5) {
+                EditModel em = new EditModel();
+                optionsList.add(em);
+                listViewOfOptions.setAdapter(new PollOptionsAdapter(NewPollActivity.this, optionsList));
+                pollOptionsAdapter.notifyDataSetChanged();
+            }
+        }
+        else if (id == R.id.submit_new_poll) {
+                pollItem = new PollItem(editTextPollTitle.getText().toString(), false, 0);
 
                 // adding optionsLists to pollItem:
                 for (int i = 0; i < optionsList.size(); i++) {
@@ -48,8 +69,8 @@ public class NewPollActivity extends AppCompatActivity{
                 }
 
                 // adding GPS coordinates to pollItem:
-                pollItem.setLatitude(PollFeedActivity.gps.getLatitude());
-                pollItem.setLongitude(PollFeedActivity.gps.getLongitude());
+                pollItem.setLatitude(GPSListener.getInstance().getLatitude());
+                pollItem.setLongitude(GPSListener.getInstance().getLongitude());
 
                 HashMap<String, String> args = pollItem.getArgs();
                 Requestor.postRequest(getApplicationContext(), "create", FirebaseAuth.getInstance().getCurrentUser(), args);
@@ -62,25 +83,15 @@ public class NewPollActivity extends AppCompatActivity{
                 Log.i("NUM OF OPTIONS", String.valueOf(pollItem.getNumOptions()));
                 Log.i("LATITUDE", Double.toString(pollItem.getLatitude()));
                 Log.i("LONGITUDE", Double.toString(pollItem.getLongitude()));
-                Log.i("CITY", PollFeedActivity.gps.getCityName());
+                Log.i("CITY", GPSListener.getInstance().getCityName());
 
                 // destroy this instance of NewPollActivity:
                 finish();
-            }
-        });
-
-        addNewOptionBtn = (Button) findViewById(R.id.main_add_btn);
-        addNewOptionBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                if(optionsList.size() < 5) {
-                    EditModel em = new EditModel();
-                    optionsList.add(em);
-                    listViewOfOptions.setAdapter(new PollOptionsAdapter(NewPollActivity.this, optionsList));
-                    pollOptionsAdapter.notifyDataSetChanged();
-                }
-            }
-        });
+        }
+        else if(id == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private ArrayList<EditModel> populateList(){
@@ -91,11 +102,4 @@ public class NewPollActivity extends AppCompatActivity{
         }
         return list;
     }
-
-    private int getIDfromDB(){
-        return 1337;
-    }
-
-
-
 }
