@@ -68,6 +68,9 @@ public class PollFragment extends Fragment {
                 pollList = Requestor.getPolls(getContext().getApplicationContext(), FirebaseAuth.getInstance().getUid(), route, new Requestor.HTTPCallback() {
                     @Override
                     public void onSuccess(){
+                        if(route.equals("new")){
+                            GPSListener.getPollsNearUser(pollList);
+                        }
                         recyclerView.setAdapter(new PollRecyclerAdapter(getContext(), pollList));
                     }
                 });
@@ -97,10 +100,14 @@ public class PollFragment extends Fragment {
                 pollList = Requestor.getPolls(getContext().getApplicationContext(), FirebaseAuth.getInstance().getUid(), route, new Requestor.HTTPCallback() {
                     @Override
                     public void onSuccess(){
+                        if(route.equals("new")){
+                            GPSListener.getPollsNearUser(pollList);
+                        }
                         recyclerView.setAdapter(new PollRecyclerAdapter(getContext(), pollList));
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 });
+
             }
         });
 
