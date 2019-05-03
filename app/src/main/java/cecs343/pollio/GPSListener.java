@@ -5,10 +5,9 @@ import android.content.Context;
 import android.location.*;
 import android.os.Bundle;
 import android.util.Log;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -16,6 +15,7 @@ import static android.content.Context.LOCATION_SERVICE;
 
 public class GPSListener implements LocationListener {
 
+    public static final double SEARCH_RADIUS_IN_MILES = 5.0;
     private static GPSListener instance;
 
     private Context mContext;
@@ -157,5 +157,34 @@ public class GPSListener implements LocationListener {
 
     }
 
+    public static void getPollsNearUser(ArrayList<PollItem> pollList){
+        double userLat = instance.getLatitude();
+        double userLong = instance.getLongitude();
+        Log.i("getPollsNearUser", "==========================================================");
+        Log.i("user.x", Double.toString(userLat));
+        Log.i("user.y", Double.toString(userLong));
+        Log.i("POLLLIST SIZE", Integer.toString(pollList.size()));
+        Log.i("SEARCH_RADIUS_IN_MILES", Double.toString(SEARCH_RADIUS_IN_MILES));
 
+        for (int i = 0; i < pollList.size(); i++) {
+            double pollLat = pollList.get(i).getLatitude();
+            double pollLong = pollList.get(i).getLongitude();
+            double distanceBetweenPoints = Math.sqrt(Math.pow(userLat - pollLat, 2) + Math.pow(userLong - pollLong, 2));
+            double distanceBetweenPointsInMiles = 69.0 * distanceBetweenPoints;
+
+            Log.i("i", "---------------------------------------------");
+            Log.i("Poll", pollList.get(i).getTitle());
+            Log.i("p.x", Double.toString(pollLat));
+            Log.i("p.y", Double.toString(pollLong));
+            Log.i("      distance", Double.toString(distanceBetweenPoints));
+            Log.i("distance in mi", Double.toString(distanceBetweenPointsInMiles) + " mi");
+
+            // if the distance between the current location of the user and the poll coordinates is
+            // greater than the search radius then remove the poll from the pollList
+            if(distanceBetweenPointsInMiles > GPSListener.SEARCH_RADIUS_IN_MILES){
+                pollList.remove(i);
+                i--;
+            }
+        }
+    }
 }
