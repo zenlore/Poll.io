@@ -57,7 +57,7 @@ public class Requestor {
                         (Request.Method.POST, url, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                Log.d("HTPPRequest", response);
+                                Log.d("HTTPRequest", response);
                             }
                         }, new Response.ErrorListener() {
 
@@ -65,7 +65,7 @@ public class Requestor {
                             public void onErrorResponse(VolleyError error) {
                                 // TODO: Handle error
                                 if (error.getMessage() != null) {
-                                    Log.d("HTPPRequest", error.getMessage());
+                                    Log.d("HTTPRequest", error.getMessage());
                                 }
                             }
                         })
@@ -73,7 +73,7 @@ public class Requestor {
                     @Override
                     public Map<String, String> getParams() {
                         args.put("token", idToken);
-                        Log.d("HTPPRequest", "POST; url: " + url + " args: " + args.toString());
+                        Log.d("HTTPRequest", "POST; url: " + url + " args: " + args.toString());
                         return args;
                     }
                 };
@@ -95,11 +95,13 @@ public class Requestor {
 
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d("HTPPRequest", response.toString());
+                        Log.d("HTTPRequest", response.toString());
                         try{
                             for (int i = 0, size = response.length(); i < size; i++) {
                                 JSONObject jsonPoll = response.getJSONObject(i);
                                 PollItem poll = new PollItem(jsonPoll.get("title").toString(), (boolean)(jsonPoll.get("favorited")), Integer.parseInt(jsonPoll.get("pollID").toString()));
+                                poll.setLatitude(jsonPoll.getDouble("latitude"));
+                                poll.setLongitude(jsonPoll.getDouble("longitude"));
                                 JSONArray options = jsonPoll.getJSONArray("options");
                                 JSONArray votes = jsonPoll.getJSONArray("votes");
                                 for(int j = 0; j < options.length(); j++)
@@ -113,9 +115,9 @@ public class Requestor {
                             callback.onSuccess();
                         }
                         catch (Exception e){
-                            Log.d("HTPPRequest", "JSON EXCEPTION: " + e.getMessage());
+                            Log.d("HTTPRequest", "JSON EXCEPTION: " + e.getMessage());
                             for (StackTraceElement s : e.getStackTrace()) {
-                                Log.d("HTPPRequest", s.toString());
+                                Log.d("HTTPRequest", s.toString());
                             }
                         }
                     }
@@ -125,7 +127,7 @@ public class Requestor {
                     public void onErrorResponse(VolleyError error) {
                         // TODO: Handle error
                         if (error.getMessage() != null) {
-                            Log.d("HTPPRequest", error.getMessage());
+                            Log.d("HTTPRequest", error.getMessage());
                         }
                     }
                 })

@@ -39,7 +39,7 @@ def createPoll():
         'VALUES (%s, %s, %s, CURRENT_TIMESTAMP, %s)', [title, latitude, longitude, user])
     pollID = cursor.lastrowid
 
-    for option in options.split(','):
+    for option in options.split('|'):
         cursor.execute('INSERT INTO PollOption (optionText, pollID) VALUES (%s, %s)', [option, pollID])
     conn.commit()
     
@@ -119,7 +119,7 @@ def favorite():
 
 newRequest = ('SELECT mop.pollID, title, GROUP_CONCAT(optionText) AS options, GROUP_CONCAT(voteCount) AS votes, mop.uid AS creator, '
             '(SELECT v.optionText FROM VoteItem v WHERE v.pollID = mop.pollID AND v.uid = %s) as voted, '
-            '(SELECT \'true\' FROM Favorite f WHERE mop.pollID = f.pollID AND f.uid = %s) as favorite '
+            '(SELECT \'true\' FROM Favorite f WHERE mop.pollID = f.pollID AND f.uid = %s) as favorite, lat, longitude '
                 'FROM MultiOptionPoll mop '
                 'INNER JOIN '
                 '(SELECT po2.pollID, po2.optionText, COUNT(vote.uid) voteCount '
@@ -132,7 +132,7 @@ newRequest = ('SELECT mop.pollID, title, GROUP_CONCAT(optionText) AS options, GR
 
 favoriteRequest = ('SELECT mop.pollID, title, GROUP_CONCAT(optionText) AS options, GROUP_CONCAT(voteCount) AS votes, mop.uid AS creator, '
             '(SELECT v.optionText FROM VoteItem v WHERE v.pollID = mop.pollID AND v.uid = %s) as voted, '
-            '(SELECT \'true\' FROM Favorite f WHERE mop.pollID = f.pollID AND f.uid = %s) as favorite '
+            '(SELECT \'true\' FROM Favorite f WHERE mop.pollID = f.pollID AND f.uid = %s) as favorite, lat, longitude '
                 'FROM MultiOptionPoll mop '
                 'INNER JOIN '
                 '(SELECT po2.pollID, po2.optionText, COUNT(vote.uid) voteCount '
@@ -146,7 +146,7 @@ favoriteRequest = ('SELECT mop.pollID, title, GROUP_CONCAT(optionText) AS option
 
 myRequest = ('SELECT mop.pollID, title, GROUP_CONCAT(optionText) AS options, GROUP_CONCAT(voteCount) AS votes, mop.uid AS creator, '
                    '(SELECT v.optionText FROM VoteItem v WHERE v.pollID = mop.pollID AND v.uid = %s) as voted, '
-                   '(SELECT \'true\' FROM Favorite f WHERE mop.pollID = f.pollID AND f.uid = %s) as favorite '
+                   '(SELECT \'true\' FROM Favorite f WHERE mop.pollID = f.pollID AND f.uid = %s) as favorite, lat, longitude '
                    'FROM MultiOptionPoll mop '
                    'INNER JOIN '
                    '(SELECT po2.pollID, po2.optionText, COUNT(vote.uid) voteCount '
@@ -160,7 +160,7 @@ myRequest = ('SELECT mop.pollID, title, GROUP_CONCAT(optionText) AS options, GRO
 
 votedRequest = ('SELECT mop.pollID, title, GROUP_CONCAT(concat.optionText) AS options, GROUP_CONCAT(voteCount) AS votes, mop.uid AS creator, '
                    '(SELECT v.optionText FROM VoteItem v WHERE v.pollID = mop.pollID AND v.uid = %s) as voted, '
-                   '(SELECT \'true\' FROM Favorite f WHERE mop.pollID = f.pollID AND f.uid = %s) as favorite '
+                   '(SELECT \'true\' FROM Favorite f WHERE mop.pollID = f.pollID AND f.uid = %s) as favorite, lat, longitude '
                    'FROM MultiOptionPoll mop '
                    'INNER JOIN '
                    '(SELECT po2.pollID, po2.optionText, COUNT(vote.uid) voteCount '
@@ -201,7 +201,7 @@ def getPolls(request, uid):
     polls = []
 
     for entry in data:
-        poll = Poll(entry[0], entry[1], entry[4], entry[5], entry[6] != None)
+        poll = Poll(entry[0], entry[1], entry[4], entry[5], entry[6] != None, entry[7], entry[8])
         options = entry[2].split(',')
         votes = entry[3].split(',')
         for i in range(len(options)):
