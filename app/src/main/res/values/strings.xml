@@ -31,5 +31,10 @@
 
     <string name="poll_posted_label">Posted From</string>
     <string name ="poll_results_text">Poll Results</string>
+
+    <!--Account Fragment Strings-->
     <string name="account_welcome">Welcome</string>
+    <string name="account_change_password">Change Password</string>
+    <string name="account_logout">Log Out</string>
+
 </resources>
