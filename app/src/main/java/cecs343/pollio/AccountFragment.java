@@ -1,7 +1,6 @@
 package cecs343.pollio;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
@@ -12,11 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.view.View.OnClickListener;
 import android.content.Intent;
-import android.view.inputmethod.EditorInfo;
-import android.widget.*;
-import android.widget.Toast;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -24,6 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
 
 
 /**
@@ -47,14 +43,11 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
     private Button logoutButton;
     private Button forgotPassButton;
 
-
     private MapView mapView;
     private GoogleMap googleMap;
     private String displayName;
     //Firebase object
     private FirebaseAuth mAuth;
-
-
 
     private OnFragmentInteractionListener mListener;
 
@@ -84,10 +77,6 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
 
     }
 
@@ -166,15 +155,6 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
         getActivity().finish();
     }
 
-
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -191,8 +171,6 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
         super.onDetach();
         mListener = null;
     }
-
-
 
     /**
      * This interface must be implemented by activities that contain this

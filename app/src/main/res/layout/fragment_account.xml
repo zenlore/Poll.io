@@ -102,13 +102,16 @@
                     android:layout_width="241dp"
                     android:layout_height="wrap_content" tools:layout_editor_absoluteY="315dp"
                     app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                    android:id="@+id/changePass" android:layout_gravity="center_horizontal"/>
+                    android:id="@+id/changePass" android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/finger_paint"/>
             <Button
                     android:text="@string/account_logout"
                     android:layout_width="241dp"
                     android:layout_height="wrap_content" tools:layout_editor_absoluteY="386dp"
                     app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                    android:id="@+id/logout_button" android:layout_gravity="center_horizontal"/>
+                    android:id="@+id/logout_button" android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/finger_paint"
+                    style="@style/Widget.AppCompat.Button.Colored"/>
             <ImageView
                     android:src="@drawable/grass"
                     android:layout_width="match_parent"

@@ -29,7 +29,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
-    <string name="poll_posted_label">Posted From</string>
+    <!--Chart Strings-->
     <string name ="poll_results_text">Poll Results</string>
 
     <!--Account Fragment Strings-->
