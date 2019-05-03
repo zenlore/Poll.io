@@ -1,6 +1,5 @@
 package cecs343.pollio;
 
-import android.Manifest;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,8 +22,6 @@ public class PollFeedActivity extends AppCompatActivity implements PollFragment.
     PollFragment myPolls;
     PollFragment votedPolls;
     AccountFragment account;
-
-    public static GPSListener gps; // GPS variable
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -78,7 +75,7 @@ public class PollFeedActivity extends AppCompatActivity implements PollFragment.
         requestPermission("android.permission.WRITES_EXTERNAL_STORAGE");
 
         // GPS SETUP:
-        gps = new GPSListener(PollFeedActivity.this);
+        GPSListener.initGPS(PollFeedActivity.this);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
