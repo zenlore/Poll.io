@@ -240,7 +240,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**This function is the sign in with email and password**/
     private void signIn(){
         //get the user's input
-        String emailText = mEmailView.getText().toString();
+        String emailText = mEmailView.getText().toString().trim();
         String passwordText = mPasswordView.getText().toString();
 
         //if the email or password is left BLANK:
