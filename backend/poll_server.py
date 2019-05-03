@@ -39,7 +39,7 @@ def createPoll():
         'VALUES (%s, %s, %s, CURRENT_TIMESTAMP, %s)', [title, latitude, longitude, user])
     pollID = cursor.lastrowid
 
-    for option in options.split(','):
+    for option in options.split('|'):
         cursor.execute('INSERT INTO PollOption (optionText, pollID) VALUES (%s, %s)', [option, pollID])
     conn.commit()
     
