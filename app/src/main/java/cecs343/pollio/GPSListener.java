@@ -39,7 +39,6 @@ public class GPSListener implements LocationListener {
         if(instance == null){
             instance = new GPSListener(mContext);
         }
-
         return instance;
     }
 
@@ -99,6 +98,7 @@ public class GPSListener implements LocationListener {
      * @return a double representation of latitude
      */
     public double getLatitude(){
+        updateLocation();
         return latitude;
     }
 
@@ -107,6 +107,7 @@ public class GPSListener implements LocationListener {
      * @return a double representation of longitude
      */
     public double getLongitude(){
+        updateLocation();
         return longitude;
     }
 
@@ -131,8 +132,8 @@ public class GPSListener implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         updateLocation();
-        Log.i("LONGITUDE: ", Double.toString(longitude));
-        Log.i("LATITUDE: ", Double.toString(longitude));
+        Log.i("LATITUDE ", Double.toString(latitude));
+        Log.i("LONGITUDE ", Double.toString(longitude));
     }
 
     @Override
