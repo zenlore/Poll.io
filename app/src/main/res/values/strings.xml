@@ -21,6 +21,7 @@
     <string name="prompt_reenterpass">Re-enter your password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_register">Register</string>
+    <string name="action_register_login">Don\'t have an account? Register now!</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
