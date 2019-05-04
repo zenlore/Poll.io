@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,13 @@ import android.widget.Button;
 import android.content.Intent;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,6 +52,7 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
 
     private OnFragmentInteractionListener mListener;
 
+    ArrayList<PollItem> pollList = new ArrayList<>();
 
     public AccountFragment() {
         // Required empty public constructor
@@ -74,6 +79,12 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pollList = Requestor.getPolls(getContext().getApplicationContext(), FirebaseAuth.getInstance().getUid(), "new", new Requestor.HTTPCallback() {
+            @Override
+            public void onSuccess(){
+                GPSListener.getPollsNearUser(pollList);
+            }
+        });
 
     }
 
@@ -104,6 +115,7 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
 
         return view;
     }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view,savedInstanceState);
@@ -114,6 +126,7 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
             mapView.getMapAsync(this);
         }
     }
+
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -124,17 +137,30 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
         googleMap.setOnMyLocationClickListener(this);
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
+        for (int i = 0; i < pollList.size(); i++) {
+            double x = pollList.get(i).getLatitude();
+            double y = pollList.get(i).getLongitude();
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(x, y)));
+            Log.i("x", Double.toString(x));
+            Log.i("y", Double.toString(y));
+        }
+
         double currentLat = GPSListener.getInstance().getLatitude();
         double currentLong = GPSListener.getInstance().getLongitude();
 
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(currentLat, currentLong)));
-        CameraPosition current = CameraPosition.builder().target(new LatLng(currentLat, currentLong)).zoom(16).bearing(0).tilt(45).build();
+        googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(currentLat, currentLong))
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+        );
+        CameraPosition current = CameraPosition.builder().target(new LatLng(currentLat, currentLong)).zoom(12).bearing(0).tilt(45).build();
         googleMap.moveCamera((CameraUpdateFactory.newCameraPosition(current)));
     }
+
     @Override
     public void onMyLocationClick(@NonNull Location location) {
         //Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
     }
+
     @Override
     public boolean onMyLocationButtonClick() {
         //Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
@@ -184,7 +210,4 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-
-
 }
