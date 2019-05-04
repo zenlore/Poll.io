@@ -13,7 +13,8 @@ FROM MultiOptionPoll mop
                                AND po2.pollID = vote.pollID
       GROUP BY po2.pollID, po2.optionText) AS concat ON mop.pollID = concat.pollID
      -- WHERE TODO: Add support for getting only recent polls
-GROUP BY mop.pollID;
+GROUP BY mop.pollID
+ORDER BY mop.created DESC;
 
 -- FAVORITED
 SELECT mop.pollID, title, GROUP_CONCAT(optionText) AS options, GROUP_CONCAT(voteCount) AS votes, mop.uid AS creator,
