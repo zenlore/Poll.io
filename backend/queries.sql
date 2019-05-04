@@ -72,28 +72,28 @@ FROM VoteItem vi
                   ON vi.optionText = po.optionText
        INNER JOIN MultiOptionPoll mop
                   ON po.pollID = mop.pollID
-WHERE mop.uid = 'aZwTU3f2drfMjs7diA7ihEMZkoy1'
-UNION
+WHERE mop.uid = '69jC6yHyAJXTQZxiyoL3YKLvQrO2'
+UNION ALL
 -- Number of polls you created
 -- "Polls made"
 SELECT COUNT(mop.pollID)
 FROM MultiOptionPoll mop
-WHERE mop.uid = 'aZwTU3f2drfMjs7diA7ihEMZkoy1'
-UNION
+WHERE mop.uid = '69jC6yHyAJXTQZxiyoL3YKLvQrO2'
+UNION ALL
 -- Number of polls you favorited
 -- "Polls favorited"
 SELECT COUNT(mop.pollID)
 FROM Favorite f
-       INNER JOIN MultiOptionPoll mop
+       RIGHT OUTER JOIN MultiOptionPoll mop
                   ON f.pollID = mop.pollID
-WHERE f.uid = 'aZwTU3f2drfMjs7diA7ihEMZkoy1'
-UNION
+WHERE f.uid = '69jC6yHyAJXTQZxiyoL3YKLvQrO2'
+UNION ALL
 -- Number of polls you voted on
 -- Polls voted on
 SELECT COUNT(vi.uid)
 FROM VoteItem vi
-WHERE vi.uid = 'aZwTU3f2drfMjs7diA7ihEMZkoy1'
-UNION
+WHERE vi.uid = '69jC6yHyAJXTQZxiyoL3YKLvQrO2'
+UNION ALL
 -- Number of votes
 SELECT COUNT(vi.uid)
 FROM VoteItem vi;
