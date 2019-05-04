@@ -64,7 +64,6 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
      *
      * @return A new instance of fragment AccountFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static AccountFragment newInstance(String param1, String param2) {
         AccountFragment fragment = new AccountFragment();
         Bundle args = new Bundle();
@@ -218,7 +217,6 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
