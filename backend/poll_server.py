@@ -75,7 +75,42 @@ def getDisplayname():
         'FROM Users '
         'WHERE Users.uid = %s ', [uid])
     data = cursor.fetchall()
-    return data
+    return jsonify({"displayname" : data[0][0]})
+
+@app.route('/stats', methods=["GET"])
+def getStats():
+    conn = mysql.connect()
+    cursor =conn.cursor()
+    uid = request.args.get('uid')
+
+    cursor.execute(
+        'SELECT COUNT(vi.uid) '
+            'FROM VoteItem vi '
+            'INNER JOIN PollOption po '
+                'ON vi.optionText = po.optionText '
+            'INNER JOIN MultiOptionPoll mop '
+                'ON po.pollID = mop.pollID '
+            'WHERE mop.uid = %s '
+        'UNION '
+        'SELECT COUNT(mop.pollID) '
+            'FROM MultiOptionPoll mop '
+            'WHERE mop.uid = %s '
+        'UNION '
+        'SELECT COUNT(mop.pollID) '
+            'FROM Favorite f '
+            'INNER JOIN MultiOptionPoll mop '
+                'ON f.pollID = mop.pollID '
+            'WHERE f.uid = %s '
+        'UNION '
+        'SELECT COUNT(vi.uid) '
+            'FROM VoteItem vi '
+            'WHERE vi.uid = %s '
+        'UNION '
+        'SELECT COUNT(vi.uid) '
+            'FROM VoteItem vi;',
+        [uid, uid, uid, uid])
+    data = cursor.fetchall()
+    return jsonify({"votesOnMine" : data[0][0], "myPollsCreated" : data[1][0], "myPollsFavorited" : data[2][0], "myVotes" : data[3][0], "totalVotes" : data[4][0]})
 
 
 @app.route('/vote', methods=["POST"])

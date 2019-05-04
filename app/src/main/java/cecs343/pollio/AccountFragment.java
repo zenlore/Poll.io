@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -90,7 +91,7 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_account, container, false);
+        final View view =  inflater.inflate(R.layout.fragment_account, container, false);
         //find logout button
         logoutButton = view.findViewById(R.id.logout_button);
 
@@ -98,9 +99,33 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
 
         Requestor.getRequest(getContext().getApplicationContext(), FirebaseAuth.getInstance().getUid(), "displayname", new Requestor.ObjHTTPCallback() {
             @Override
-            public void onSuccess(Object displayname){
-                Log.d("WTF", (String)displayname);
-                displaynameTextView.setText((String)displayName);
+            public void onSuccess(JSONObject displayname){
+                Log.d("WTF", displayname.toString());
+                try {
+                    displaynameTextView.setText(displayname.getString("displayname"));
+                } catch (Exception e){
+                    Log.d("HTTPRequest", "Failed to resolve JSON");
+                }
+            }
+        });
+
+        Requestor.getRequest(getContext().getApplicationContext(), FirebaseAuth.getInstance().getUid(), "stats", new Requestor.ObjHTTPCallback() {
+            @Override
+            public void onSuccess(JSONObject stats){
+                try {
+                    String votesOnMine = stats.getString("votesOnMine");
+                    String myPollsCreated = stats.getString("myPollsCreated");
+                    String myPollsFavorited = stats.getString("myPollsFavorited");
+                    String myVotes = stats.getString("myVotes");
+                    String totalVotes = stats.getString("totalVotes");
+
+                    ((TextView)view.findViewById(R.id.stats_polls_voted_on)).setText(myVotes);
+                    ((TextView)view.findViewById(R.id.stats_total_votes)).setText(totalVotes);
+                    ((TextView)view.findViewById(R.id.stats_polls_made)).setText(myPollsCreated);
+                    ((TextView)view.findViewById(R.id.stats_polls_favorited)).setText(myPollsFavorited);
+                } catch (Exception e){
+                    Log.d("HTTPRequest", "Failed to resolve JSON: " + e.getMessage());
+                }
             }
         });
 

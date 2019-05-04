@@ -37,7 +37,7 @@ public class Requestor {
     }
 
     public interface ObjHTTPCallback {
-        void onSuccess(Object o);
+        void onSuccess(JSONObject o);
     }
 
     // Passed context MUST be applicationContext, not activity
@@ -107,8 +107,8 @@ public class Requestor {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("HTTPRequest", response.toString());
-                        try{ callback.onSuccess(response.getString("displayname"));
-
+                        try{
+                            callback.onSuccess(response);
                         } catch (Exception e) {
 
                         }
