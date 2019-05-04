@@ -40,13 +40,13 @@
                         android:textSize="14sp" app:layout_constraintTop_toTopOf="parent"
                         android:layout_marginTop="16dp"/>
                 <TextView
-                        android:text="TextView"
+                        android:text="null"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" android:id="@+id/stats_polls_made"
                         app:layout_constraintTop_toTopOf="parent"
                         android:layout_marginTop="16dp" app:layout_constraintStart_toEndOf="@+id/stats_polls_made_label"
                         android:layout_marginStart="8dp" android:fontFamily="@font/finger_paint"
-                        android:textColor="@color/colorPrimary"/>
+                        android:textColor="#e74f38"/>
                 <TextView
                         android:text="@string/stats_polls_favorited"
                         android:layout_width="wrap_content"
@@ -56,11 +56,11 @@
                         app:layout_constraintTop_toBottomOf="@+id/stats_polls_made_label"
                         android:fontFamily="@font/finger_paint"/>
                 <TextView
-                        android:text="TextView"
+                        android:text="null"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" android:id="@+id/stats_polls_favorited"
                         app:layout_constraintStart_toEndOf="@+id/stats_polls_favorited_label"
-                        android:layout_marginStart="8dp" android:textColor="@color/colorPrimary"
+                        android:layout_marginStart="8dp" android:textColor="#f89939"
                         android:fontFamily="@font/finger_paint" android:layout_marginTop="8dp"
                         app:layout_constraintTop_toBottomOf="@+id/stats_polls_made"/>
                 <TextView
@@ -72,7 +72,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/stats_polls_favorited_label"
                         android:fontFamily="@font/finger_paint"/>
                 <TextView
-                        android:text="TextView"
+                        android:text="null"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" android:id="@+id/stats_polls_voted_on"
                         android:textColor="@color/colorPrimary" android:fontFamily="@font/finger_paint"
@@ -89,10 +89,10 @@
                         android:fontFamily="@font/finger_paint" app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_marginBottom="16dp"/>
                 <TextView
-                        android:text="TextView"
+                        android:text="null"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" android:id="@+id/stats_total_votes"
-                        android:fontFamily="@font/finger_paint" android:textColor="@color/colorPrimary"
+                        android:fontFamily="@font/finger_paint" android:textColor="#39f83c"
                         app:layout_constraintStart_toEndOf="@+id/stats_total_votes_label"
                         android:layout_marginStart="8dp" android:layout_marginTop="8dp"
                         app:layout_constraintTop_toBottomOf="@+id/stats_polls_voted_on"/>
@@ -131,12 +131,12 @@
                 android:layout_alignParentStart="true" android:layout_marginStart="38dp"
                 android:layout_alignParentTop="true"/>
         <TextView
-                android:text="TextView"
+                android:text="user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/acct_user_name"
                 android:layout_alignParentTop="true"
                 android:fontFamily="@font/finger_paint"
-                android:textColor="@color/colorPrimary" android:textSize="18sp"
+                android:textColor="#22d4bc" android:textSize="18sp"
                 android:layout_toEndOf="@+id/acct_welcome_text" android:layout_marginStart="16dp"/>
     </RelativeLayout>
     <LinearLayout

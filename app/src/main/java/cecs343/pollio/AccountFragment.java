@@ -80,6 +80,7 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         pollList = Requestor.getPolls(getContext().getApplicationContext(), FirebaseAuth.getInstance().getUid(), "new", new Requestor.HTTPCallback() {
             @Override
             public void onSuccess(){
@@ -94,9 +95,9 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
         final View view =  inflater.inflate(R.layout.fragment_account, container, false);
         //find logout button
         logoutButton = view.findViewById(R.id.logout_button);
-
+        //WELCOME THE USER----------------------------
+        //display the user's display name
         displaynameTextView = view.findViewById(R.id.acct_user_name);
-
         Requestor.getRequest(getContext().getApplicationContext(), FirebaseAuth.getInstance().getUid(), "displayname", new Requestor.ObjHTTPCallback() {
             @Override
             public void onSuccess(JSONObject displayname){
