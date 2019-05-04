@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 import java.util.HashMap;
 
@@ -91,8 +92,13 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     //check if the task is NOT completed
-                    if(!task.isSuccessful()){
-                        Toast.makeText(RegisterActivity.this, "ERROR: Registration failed. Please make sure your password is at least 5 characters long", Toast.LENGTH_SHORT).show();
+                    if(!task.isSuccessful()) {
+                        if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                            Toast.makeText(RegisterActivity.this, "ERROR: Registration failed. User already exists", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            Toast.makeText(RegisterActivity.this, "ERROR: Registration failed. Please make sure your password is at least 5 characters long", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     else{
                         //puts displayName into the database

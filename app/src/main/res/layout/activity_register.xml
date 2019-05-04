@@ -132,7 +132,7 @@
                             android:maxLines="1"
                             android:singleLine="true"
                             android:fontFamily="sans-serif"
-                            android:maxLength="15"/>
+                            android:maxLength="20"/>
                 </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"

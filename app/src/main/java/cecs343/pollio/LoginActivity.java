@@ -31,6 +31,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 //GOOOGLE STUFFFFFFFFF
@@ -42,11 +43,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApiNotAvailableException;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.*;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -214,17 +211,29 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>(){
                    @Override
                    public void onComplete(@NonNull Task<AuthResult> task){
-                       if(task.isSuccessful()){
-                           Log.d(TAG, "signIn successful");
+                       if (task.isSuccessful()){
                            FirebaseUser user = mAuth.getCurrentUser();
-                           Toast.makeText(LoginActivity.this, "User signed in", Toast.LENGTH_SHORT).show();
-                           finish();
+                           String personName = user.getDisplayName();
+                           HashMap<String, String> args = new HashMap<>();
+                           args.put("displayname", personName);
+                           //only works if user logged in, which they did because you can only get to this place if the user logs in with google
+                           Requestor.postRequest(getApplicationContext(), "register", FirebaseAuth.getInstance().getCurrentUser(), args);
 
+                           Intent pollFragment = new Intent(LoginActivity.this, PollFeedActivity.class);
+
+                           //now clear the stack so user cannot click back to go back to register
+                           pollFragment.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                           //FINALLY LET USER IN!
+                           startActivity(pollFragment);
+                          finish();
                        }
                        else{
-                           //If sign in not successful
                            Log.w(TAG, "signIn failed", task.getException());
                            Toast.makeText(LoginActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
+                           //if user exists in database
+
+
                        }
                    }
                 });
@@ -258,6 +267,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     //check if it the password and email combo are connected
                     if(!task.isSuccessful()){
+
                         Toast.makeText(LoginActivity.this, "ERROR: Incorrect email/password", Toast.LENGTH_SHORT).show();
 
                     }

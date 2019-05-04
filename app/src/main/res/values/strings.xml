@@ -33,7 +33,7 @@
     <string name="title_notifications">Notifications</string>
 
     <!--Chart Strings-->
-    <string name ="poll_results_text">Poll Results</string>
+    <string name="poll_results_text">Poll Results</string>
 
     <!--Account Fragment Strings-->
     <string name="account_welcome">Welcome</string>

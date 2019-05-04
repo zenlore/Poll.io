@@ -17,6 +17,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.content.Intent;
 import android.widget.TextView;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -50,6 +54,7 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
     private Button logoutButton;
     private Button forgotPassButton;
     private TextView displaynameTextView;
+    private GoogleSignInClient mGoogleSignInClient;
 
     private MapView mapView;
     private GoogleMap googleMap;
@@ -192,6 +197,14 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
     }
     private void signOut(){
         mAuth.getInstance().signOut();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.google_sign_in_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+        mGoogleSignInClient.signOut();
+
 
         Intent getToLogin = new Intent(getActivity(),LoginActivity.class);
 
