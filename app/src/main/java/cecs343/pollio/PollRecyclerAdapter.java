@@ -155,7 +155,6 @@ public class PollRecyclerAdapter extends RecyclerView.Adapter<PollRecyclerAdapte
             public void onCheckedChanged(RadioGroup group, int checkedId)
             {
                 int index = group.indexOfChild(group.findViewById(checkedId));
-                Toast.makeText(context, index + " was selected", Toast.LENGTH_SHORT).show();
                 int pollIndex = (int)group.getTag(R.id.tag_pollitem_index);
                 PollItem poll = polls.get(pollIndex);
 
