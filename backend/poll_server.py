@@ -130,7 +130,8 @@ newRequest = ('SELECT mop.pollID, title, GROUP_CONCAT(optionText SEPARATOR \'|\'
                         'ON po2.optionText = vote.optionText '
                         'AND po2.pollID = vote.pollID '
                     'GROUP BY po2.pollID, po2.optionText) AS concat ON mop.pollID = concat.pollID '
-            'GROUP BY mop.pollID;')
+            'GROUP BY mop.pollID '
+            'ORDER BY mop.created DESC;')
 
 favoriteRequest = ('SELECT mop.pollID, title, GROUP_CONCAT(optionText SEPARATOR \'|\') AS options, GROUP_CONCAT(voteCount SEPARATOR \'|\') AS votes, mop.uid AS creator, '
             '(SELECT v.optionText FROM VoteItem v WHERE v.pollID = mop.pollID AND v.uid = %s) as voted, '
