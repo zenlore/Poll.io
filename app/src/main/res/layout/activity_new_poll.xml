@@ -21,6 +21,7 @@
                 android:layout_height="wrap_content"
                 android:maxLength="30"
                 android:hint="Title"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789;:`~!@#$%^*()-_=+{}[]\/,.&#032;&amp;&lt;&gt;&quot;&apos;"
                 android:maxLines="1"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -31,7 +32,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:divider="#00000000"
-            app:layout_constraintTop_toBottomOf="@id/text_input_layout_title"></ListView>
+            app:layout_constraintTop_toBottomOf="@id/text_input_layout_title"/>
 
 
 </android.support.constraint.ConstraintLayout>
