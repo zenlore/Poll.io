@@ -2,6 +2,9 @@ package cecs343.pollio;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +25,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -152,7 +157,11 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
         for (int i = 0; i < pollList.size(); i++) {
             double x = pollList.get(i).getLatitude();
             double y = pollList.get(i).getLongitude();
-            googleMap.addMarker(new MarkerOptions().position(new LatLng(x, y)));
+            googleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(x, y))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.pollmapiconlavenderblkoutlinediffcolor))
+
+            );
             Log.i("x", Double.toString(x));
             Log.i("y", Double.toString(y));
         }
@@ -167,6 +176,7 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
         CameraPosition current = CameraPosition.builder().target(new LatLng(currentLat, currentLong)).zoom(12).bearing(0).tilt(45).build();
         googleMap.moveCamera((CameraUpdateFactory.newCameraPosition(current)));
     }
+
 
     @Override
     public void onMyLocationClick(@NonNull Location location) {
@@ -222,4 +232,5 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }
