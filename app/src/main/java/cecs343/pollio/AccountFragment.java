@@ -7,11 +7,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.content.Intent;
+import android.widget.TextView;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -39,6 +41,7 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
     private String mParam2;
     private Button logoutButton;
     private Button forgotPassButton;
+    private TextView displaynameTextView;
 
     private MapView mapView;
     private GoogleMap googleMap;
@@ -82,6 +85,16 @@ public class AccountFragment extends Fragment implements OnMapReadyCallback, Goo
         View view =  inflater.inflate(R.layout.fragment_account, container, false);
         //find logout button
         logoutButton = view.findViewById(R.id.logout_button);
+
+        displaynameTextView = view.findViewById(R.id.acct_user_name);
+
+        Requestor.getRequest(getContext().getApplicationContext(), FirebaseAuth.getInstance().getUid(), "displayname", new Requestor.ObjHTTPCallback() {
+            @Override
+            public void onSuccess(Object displayname){
+                Log.d("WTF", (String)displayname);
+                displaynameTextView.setText((String)displayName);
+            }
+        });
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
