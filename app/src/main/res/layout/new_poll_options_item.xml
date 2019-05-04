@@ -14,7 +14,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`~!#$%^*()-_=+{}[]\/,.&amp;&lt;&gt;&quot;&apos;"
+            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`~!#$%^*()-_=+{}[]\/,.&#032;&amp;&lt;&gt;&quot;&apos;"
             app:layout_constraintBottom_toBottomOf="@id/container"
             app:layout_constraintLeft_toLeftOf="@id/container"
             app:layout_constraintRight_toLeftOf="@id/delete_btn"
